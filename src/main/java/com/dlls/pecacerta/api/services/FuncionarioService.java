@@ -1,7 +1,5 @@
 package com.dlls.pecacerta.api.services;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -9,19 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dlls.pecacerta.api.exceptions.FuncionarioAlreadyExistsException;
-import com.dlls.pecacerta.api.exceptions.FuncionarioNonexistentException;
+import com.dlls.pecacerta.api.exceptions.FuncionarioNoneExistentException;
 import com.dlls.pecacerta.api.model.Funcionario;
 import com.dlls.pecacerta.api.repositories.FuncionarioRepository;
 
 @Service
 public class FuncionarioService {
-
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
 
 	public Funcionario findFuncionario(Long codigo) {
 		var savedPerson = funcionarioRepository.findById(codigo)
-				.orElseThrow(() -> new FuncionarioNonexistentException());
+				.orElseThrow(() -> new FuncionarioNoneExistentException());
 		return savedPerson;
 	}
 
@@ -34,11 +31,11 @@ public class FuncionarioService {
 
 	public Funcionario update(Long codigo, @Valid Funcionario updatedFuncionario) {
 		var savedFuncionario = findFuncionario(codigo);
-		
+
 		var funcionarioComMesmoCpf = funcionarioRepository.findByCpf(updatedFuncionario.getCpf());
-		if(!funcionarioComMesmoCpf.isEmpty()) {
+		if (!funcionarioComMesmoCpf.isEmpty()) {
 			for (var funcionario : funcionarioComMesmoCpf) {
-				if(funcionario.getCodigo() != savedFuncionario.getCodigo())
+				if (funcionario.getCodigo() != savedFuncionario.getCodigo())
 					throw new FuncionarioAlreadyExistsException();
 			}
 		}

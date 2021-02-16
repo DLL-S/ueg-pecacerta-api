@@ -13,51 +13,48 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Produtos")
 public class Produto {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "prod_codigo")
 	private Long codigo;
-	
+
 	@NotNull
 	@Column(name = "prod_codigo_de_barras")
 	private String codigoDeBarras;
-	
+
 	@NotNull
 	@Column(name = "prod_nome")
 	private String nome;
-	
-	
-	@Column(name = "prod_descricao", nullable=true)
+
+	@Column(name = "prod_descricao", nullable = true)
 	private String descricao;
-	
+
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "prod_id_categoria")
 	private Categoria categoria;
-	
+
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "prod_id_marca")
 	private Marca marca;
-	
+
 	@NotNull
 	@Column(name = "prod_preco")
 	private Double preco;
-	
+
 	@NotNull
 	@Column(name = "prod_qtde_estoque")
 	private Integer qtdeEstoque;
 
 	@Column(name = "prod_ativo")
 	private Boolean ativo;
-	
+
 	public Produto() {
-		
 	}
 
-	public Produto(Long codigo, String codigoDeBarras, String nome, String descricao, Categoria categoria,
-			Marca marca, Double preco, Integer qtdeEstoque) {
+	public Produto(Long codigo, String codigoDeBarras, String nome, String descricao, Categoria categoria, Marca marca,
+			Double preco, Integer qtdeEstoque, Boolean ativo) {
 		this.codigo = codigo;
 		this.codigoDeBarras = codigoDeBarras;
 		this.nome = nome;
@@ -66,6 +63,7 @@ public class Produto {
 		this.marca = marca;
 		this.preco = preco;
 		this.qtdeEstoque = qtdeEstoque;
+		this.ativo = ativo;
 	}
 
 	public Long getCodigo() {
@@ -131,7 +129,7 @@ public class Produto {
 	public void setQtdeEstoque(Integer qtdeEstoque) {
 		this.qtdeEstoque = qtdeEstoque;
 	}
-	
+
 	public Boolean getAtivo() {
 		return ativo;
 	}

@@ -10,5 +10,6 @@ import com.dlls.pecacerta.api.model.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 	List<Cliente> findByCpfCnpj(String cpfCnpj);
+
 	List<Cliente> findByAtivo(Boolean ativo);
 }

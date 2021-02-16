@@ -1,7 +1,5 @@
 package com.dlls.pecacerta.api.services;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -15,13 +13,11 @@ import com.dlls.pecacerta.api.repositories.ClienteRepository;
 
 @Service
 public class ClienteService {
-
 	@Autowired
 	private ClienteRepository clienteRepository;
 
 	public Cliente findCliente(Long codigo) {
-		var savedPerson = clienteRepository.findById(codigo)
-				.orElseThrow(() -> new ClienteNoneExistentException());
+		var savedPerson = clienteRepository.findById(codigo).orElseThrow(() -> new ClienteNoneExistentException());
 		return savedPerson;
 	}
 
@@ -34,11 +30,11 @@ public class ClienteService {
 
 	public Cliente update(Long codigo, @Valid Cliente updatedCliente) {
 		var savedCliente = findCliente(codigo);
-		
+
 		var clienteComMesmoCpf = clienteRepository.findByCpfCnpj(updatedCliente.getCpfCnpj());
-		if(!clienteComMesmoCpf.isEmpty()) {
+		if (!clienteComMesmoCpf.isEmpty()) {
 			for (var cliente : clienteComMesmoCpf) {
-				if(cliente.getCodigo() != savedCliente.getCodigo())
+				if (cliente.getCodigo() != savedCliente.getCodigo())
 					throw new ClienteAlreadyExistsException();
 			}
 		}

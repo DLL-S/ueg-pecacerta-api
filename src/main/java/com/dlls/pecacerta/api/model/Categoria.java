@@ -10,20 +10,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Categorias")
 public class Categoria {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "cat_codigo")
 	private Long codigo;
-	
+
 	@Column(name = "cat_nome")
 	private String nome;
-	
+
 	@Column(name = "cat_ativo")
 	private Boolean ativo;
-	
+
 	public Categoria() {
-		
 	}
 
 	public Categoria(Long codigo, String nome) {
@@ -46,7 +44,7 @@ public class Categoria {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public Boolean getAtivo() {
 		return ativo;
 	}
