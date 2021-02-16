@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
-import com.dlls.pecacerta.api.exceptions.ResourceNotFoundException;
+import com.dlls.pecacerta.api.exceptions.CategoriaNoneExistentException;
 import com.dlls.pecacerta.api.model.Categoria;
 import com.dlls.pecacerta.api.repositories.CategoriaRepository;
 
 @RestController
-@RequestMapping("/api/v1/categoria")
+@RequestMapping("/api/v1/categorias")
 public class CategoriaController {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
@@ -41,10 +40,10 @@ public class CategoriaController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> alterarCategoria(@PathVariable(value = "id") Long categoriaId,
-			@Validated @RequestBody Categoria categoriaParam) throws ResourceNotFoundException {
+			@Validated @RequestBody Categoria categoriaParam) {
 
 		var categoria = categoriaRepository.findById(categoriaId).orElseThrow(
-				() -> new ResourceNotFoundException("Nenhuma categoria encontrada pelo código " + categoriaId));
+				() -> new CategoriaNoneExistentException());
 
 		categoria.setNome(categoriaParam.getNome());
 		categoria.setAtivo(categoriaParam.getAtivo());
@@ -53,13 +52,9 @@ public class CategoriaController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> consultarCategoria(@PathVariable(value = "id") Long categoriaId)
-			throws ResourceNotFoundException {
-
-		var categoria = categoriaRepository.findById(categoriaId).orElseThrow(
-				() -> new ResourceNotFoundException("Esta categoria não foi encontrada pelo codigo " + categoriaId));
-
-		return ResponseEntity.ok().body(categoria);
+	public ResponseEntity<?> consultarCategoria(@PathVariable(value = "id") Long categoriaId){
+		var categorias = categoriaRepository.findById(categoriaId);
+		return categorias.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(categorias);
 	}
 
 	@GetMapping("")
@@ -68,20 +63,18 @@ public class CategoriaController {
 		return categorias.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(categorias);
 	}
 
-	// List of all products
 	@GetMapping("/ativos")
 	public ResponseEntity<?> listarCategoriasAtivas() {
 		var categorias = this.categoriaRepository.findByAtivo(true);
 		return categorias.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(categorias);
 	}
 
-	// Alter Product
 	@PutMapping("/{id}/ativo")
 	public ResponseEntity<?> ativarCategoria(@PathVariable(value = "id") Long categoriaId,
-			@Validated @RequestBody Boolean booleano) throws ResourceNotFoundException {
+			@Validated @RequestBody Boolean booleano) {
 
 		var categoria = categoriaRepository.findById(categoriaId).orElseThrow(
-				() -> new ResourceNotFoundException("Nenhuma categoria encontrado pelo código: " + categoriaId));
+				() -> new CategoriaNoneExistentException());
 
 		categoria.setAtivo(booleano);
 

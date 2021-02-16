@@ -11,13 +11,7 @@ import com.dlls.pecacerta.api.model.Produto;
 
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
-	List<Produto> findByNomeContainingIgnoreCase(String name);
-
-	List<Produto> findByNomeIgnoreCase(String name);
-
-	List<Produto> findByCategoria(Categoria categoria);
-
-	List<Produto> findByMarca(Marca marca);
+	List<Produto> findByCodigoDeBarras(String codigoDeBarras);
 
 	List<Produto> findByAtivo(Boolean ativo);
 }

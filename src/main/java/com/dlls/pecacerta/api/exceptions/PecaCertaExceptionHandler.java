@@ -166,4 +166,14 @@ public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
+
+	@ExceptionHandler({ ProdutoAlreadyExistsException.class })
+	public ResponseEntity<?> handleProdutoAlreadyExistsException(ProdutoAlreadyExistsException ex, WebRequest request) {
+
+		List<Error> errors = Arrays.asList(
+				new Error(messages.getMessage("message.produto-already-exists", null, LocaleContextHolder.getLocale()),
+						ExceptionUtils.getRootCauseMessage(ex)));
+
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
 }

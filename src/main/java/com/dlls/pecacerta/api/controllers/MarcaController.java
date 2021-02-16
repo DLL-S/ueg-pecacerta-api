@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
-import com.dlls.pecacerta.api.exceptions.ResourceNotFoundException;
+import com.dlls.pecacerta.api.exceptions.MarcaNoneExistentException;
 import com.dlls.pecacerta.api.model.Marca;
 import com.dlls.pecacerta.api.repositories.MarcaRepository;
 
 @RestController
-@RequestMapping("/api/v1/marca")
+@RequestMapping("/api/v1/marcas")
 public class MarcaController {
 	@Autowired
 	private MarcaRepository marcaRepository;
@@ -40,10 +39,10 @@ public class MarcaController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> alterarMarca(@PathVariable(value = "id") Long marcaId,
-			@Validated @RequestBody Marca marcaParam) throws ResourceNotFoundException {
+			@Validated @RequestBody Marca marcaParam) {
 
 		var marca = marcaRepository.findById(marcaId).orElseThrow(
-				() -> new ResourceNotFoundException("Nenhuma marca encontrada pelo código fornecido" + marcaId));
+				() -> new MarcaNoneExistentException());
 
 		marca.setNome(marcaParam.getNome());
 		marca.setAtivo(marcaParam.getAtivo());
@@ -52,12 +51,9 @@ public class MarcaController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> consultarMarca(@PathVariable(value = "id") Long marcaId) throws ResourceNotFoundException {
-
-		var marca = marcaRepository.findById(marcaId).orElseThrow(
-				() -> new ResourceNotFoundException("Esta marca não foi encontrad pelo codigo " + marcaId));
-
-		return ResponseEntity.ok().body(marca);
+	public ResponseEntity<?> consultarMarca(@PathVariable(value = "id") Long marcaId) {
+		var marcas = this.marcaRepository.findById(marcaId);
+		return marcas.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(marcas);
 	}
 
 	@GetMapping("")
@@ -66,20 +62,18 @@ public class MarcaController {
 		return marcas.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(marcas);
 	}
 
-	// List of all products
 	@GetMapping("/ativos")
 	public ResponseEntity<?> listarMarcasAtivas() {
 		var marcas = this.marcaRepository.findByAtivo(true);
 		return marcas.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(marcas);
 	}
 
-	// Alter Product
 	@PutMapping("/{id}/ativo")
 	public ResponseEntity<?> ativarMarca(@PathVariable(value = "id") Long marcaId,
-			@Validated @RequestBody Boolean booleano) throws ResourceNotFoundException {
+			@Validated @RequestBody Boolean booleano) {
 
 		var marca = marcaRepository.findById(marcaId)
-				.orElseThrow(() -> new ResourceNotFoundException("Nenhuma marca encontrado pelo código: " + marcaId));
+				.orElseThrow(() -> new MarcaNoneExistentException());
 
 		marca.setAtivo(booleano);
 

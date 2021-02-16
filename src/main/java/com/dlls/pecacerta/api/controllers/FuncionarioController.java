@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
-import com.dlls.pecacerta.api.exceptions.ResourceNotFoundException;
+import com.dlls.pecacerta.api.exceptions.FuncionarioNoneExistentException;
 import com.dlls.pecacerta.api.model.Funcionario;
 import com.dlls.pecacerta.api.repositories.FuncionarioRepository;
 import com.dlls.pecacerta.api.services.FuncionarioService;
 
 @RestController
-@RequestMapping("/api/v1/funcionario")
+@RequestMapping("/api/v1/funcionarios")
 public class FuncionarioController {
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
@@ -60,20 +60,18 @@ public class FuncionarioController {
 		return ResponseEntity.ok(savedFuncionario);
 	}
 
-	// List of all products
 	@GetMapping("/ativos")
 	public ResponseEntity<?> listarFuncionariosAtivas() {
 		var funcionarios = this.funcionarioRepository.findByAtivo(true);
 		return funcionarios.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(funcionarios);
 	}
 
-	// Alter Product
 	@PutMapping("/{id}/ativo")
 	public ResponseEntity<?> ativarFuncionario(@PathVariable(value = "id") Long funcionarioId,
-			@Validated @RequestBody Boolean booleano) throws ResourceNotFoundException {
+			@Validated @RequestBody Boolean booleano) {
 
 		var funcionario = funcionarioRepository.findById(funcionarioId).orElseThrow(
-				() -> new ResourceNotFoundException("Nenhum funcionario encontrado pelo código: " + funcionarioId));
+				() -> new FuncionarioNoneExistentException());
 
 		funcionario.setAtivo(booleano);
 

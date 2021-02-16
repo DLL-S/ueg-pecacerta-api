@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
-import com.dlls.pecacerta.api.exceptions.ResourceNotFoundException;
+import com.dlls.pecacerta.api.exceptions.ClienteNoneExistentException;
 import com.dlls.pecacerta.api.model.Cliente;
 import com.dlls.pecacerta.api.repositories.ClienteRepository;
 import com.dlls.pecacerta.api.services.ClienteService;
 
 @RestController
-@RequestMapping("/api/v1/cliente")
+@RequestMapping("/api/v1/clientes")
 public class ClienteController {
 	@Autowired
 	private ClienteRepository clienteRepository;
@@ -60,20 +60,18 @@ public class ClienteController {
 		return ResponseEntity.ok(savedCliente);
 	}
 
-	// List of all products
 	@GetMapping("/ativos")
 	public ResponseEntity<?> listarClientesAtivas() {
 		var clientes = this.clienteRepository.findByAtivo(true);
 		return clientes.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(clientes);
 	}
 
-	// Alter Product
 	@PutMapping("/{id}/ativo")
 	public ResponseEntity<?> ativarCliente(@PathVariable(value = "id") Long clienteId,
-			@Validated @RequestBody Boolean booleano) throws ResourceNotFoundException {
+			@Validated @RequestBody Boolean booleano) {
 
 		var cliente = clienteRepository.findById(clienteId).orElseThrow(
-				() -> new ResourceNotFoundException("Nenhum cliente encontrado pelo código: " + clienteId));
+				() -> new ClienteNoneExistentException());
 
 		cliente.setAtivo(booleano);
 
