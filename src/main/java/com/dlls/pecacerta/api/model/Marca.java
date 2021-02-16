@@ -10,24 +10,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Marcas")
 public class Marca {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "marca_codigo")
 	private Long codigo;
-
+	
 	@Column(name = "marca_nome")
 	private String nome;
-
-	@Column(name = "marca_ativo")
-	private Boolean ativo;
-
+	
 	public Marca() {
+		
 	}
 
-	public Marca(Long codigo, String nome, Boolean ativo) {
+	public Marca(Long codigo, String nome) {
 		this.codigo = codigo;
 		this.nome = nome;
-		this.ativo = ativo;
 	}
 
 	public Long getCodigo() {
@@ -45,12 +43,6 @@ public class Marca {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public Boolean getAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
-	}
+	
+	
 }

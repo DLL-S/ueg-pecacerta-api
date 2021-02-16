@@ -9,7 +9,7 @@ import com.dlls.pecacerta.api.model.Funcionario;
 
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
-	List<Funcionario> findByCpf(String cpf);
+	
+	public List<Funcionario> findByCpf(String cpf);
 
-	List<Funcionario> findByAtivo(Boolean ativo);
 }

@@ -27,13 +27,14 @@ import com.dlls.pecacerta.api.utils.Error;
 
 @ControllerAdvice
 public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
+
 	@Autowired
 	private MessageSource messages;
 
 	private List<Error> buildErrorsList(BindingResult results) {
 		List<Error> errors = new ArrayList<>();
 
-		for (FieldError fieldError : results.getFieldErrors()) {
+		for(FieldError fieldError : results.getFieldErrors()) {
 			String userMessage = messages.getMessage(fieldError, LocaleContextHolder.getLocale());
 			String developerMessage = fieldError.toString();
 			errors.add(new Error(userMessage, developerMessage));
@@ -46,9 +47,10 @@ public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		List<Error> errors = Arrays
-				.asList(new Error(messages.getMessage("message.invalid-request", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
+		List<Error> errors = Arrays.asList(
+				new Error(messages.getMessage("message.invalid-request", null, LocaleContextHolder.getLocale()),
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
 	}
@@ -67,7 +69,8 @@ public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		List<Error> errors = Arrays.asList(
 				new Error(messages.getMessage("message.internal-server-error", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
@@ -77,7 +80,8 @@ public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		List<Error> errors = Arrays.asList(
 				new Error(messages.getMessage("message.resource-not-found", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
@@ -87,29 +91,30 @@ public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		List<Error> errors = Arrays.asList(
 				new Error(messages.getMessage("message.invalid-operation", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
-	@ExceptionHandler({ FuncionarioNoneExistentException.class })
-	public ResponseEntity<?> handleFuncionarioNonexistentException(FuncionarioNoneExistentException ex,
-			WebRequest request) {
+	@ExceptionHandler({ FuncionarioNonexistentException.class })
+	public ResponseEntity<?> handleFuncionarioNonexistentException(FuncionarioNonexistentException ex, WebRequest request) {
 
 		List<Error> errors = Arrays.asList(
 				new Error(messages.getMessage("message.funcionario-nonexistent", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
 	@ExceptionHandler({ FuncionarioAlreadyExistsException.class })
-	public ResponseEntity<?> handleFuncionarioAlreadyExistsException(FuncionarioAlreadyExistsException ex,
-			WebRequest request) {
+	public ResponseEntity<?> handleFuncionarioAlreadyExistsException(FuncionarioAlreadyExistsException ex, WebRequest request) {
 
-		List<Error> errors = Arrays.asList(new Error(
-				messages.getMessage("message.funcionario-already-exists", null, LocaleContextHolder.getLocale()),
-				ExceptionUtils.getRootCauseMessage(ex)));
+		List<Error> errors = Arrays.asList(
+				new Error(messages.getMessage("message.funcionario-already-exists", null, LocaleContextHolder.getLocale()),
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
@@ -119,7 +124,8 @@ public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		List<Error> errors = Arrays.asList(
 				new Error(messages.getMessage("message.cliente-nonexistent", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
@@ -129,40 +135,8 @@ public class PecaCertaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		List<Error> errors = Arrays.asList(
 				new Error(messages.getMessage("message.cliente-already-exists", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
-
-		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-	}
-
-	@ExceptionHandler({ ProdutoNoneExistentException.class })
-	public ResponseEntity<?> handleProdutoNonexistentException(ProdutoNoneExistentException ex,
-			WebRequest request) {
-
-		List<Error> errors = Arrays.asList(
-				new Error(messages.getMessage("message.produto-nonexistent", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
-
-		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-	}
-
-	@ExceptionHandler({ MarcaNoneExistentException.class })
-	public ResponseEntity<?> handleMarcaNonexistentException(MarcaNoneExistentException ex,
-			WebRequest request) {
-
-		List<Error> errors = Arrays.asList(
-				new Error(messages.getMessage("message.marca-nonexistent", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
-
-		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-	}
-
-	@ExceptionHandler({ CategoriaNoneExistentException.class })
-	public ResponseEntity<?> handleCategoriaNonexistentException(CategoriaNoneExistentException ex,
-			WebRequest request) {
-
-		List<Error> errors = Arrays.asList(
-				new Error(messages.getMessage("message.categoria-nonexistent", null, LocaleContextHolder.getLocale()),
-						ExceptionUtils.getRootCauseMessage(ex)));
+				ExceptionUtils.getRootCauseMessage(ex))
+			);
 
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
