@@ -33,12 +33,10 @@ public class FuncionarioService {
 		var savedFuncionario = findFuncionario(codigo);
 
 		var funcionarioComMesmoCpf = funcionarioRepository.findByCpf(updatedFuncionario.getCpf());
-		if (!funcionarioComMesmoCpf.isEmpty()) {
-			for (var funcionario : funcionarioComMesmoCpf) {
+		if (!funcionarioComMesmoCpf.isEmpty())
+			for (var funcionario : funcionarioComMesmoCpf)
 				if (funcionario.getCodigo() != savedFuncionario.getCodigo())
 					throw new FuncionarioAlreadyExistsException();
-			}
-		}
 
 		BeanUtils.copyProperties(updatedFuncionario, savedFuncionario, "codigo");
 		return funcionarioRepository.save(savedFuncionario);

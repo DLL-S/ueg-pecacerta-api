@@ -32,12 +32,10 @@ public class ClienteService {
 		var savedCliente = findCliente(codigo);
 
 		var clienteComMesmoCpf = clienteRepository.findByCpfCnpj(updatedCliente.getCpfCnpj());
-		if (!clienteComMesmoCpf.isEmpty()) {
-			for (var cliente : clienteComMesmoCpf) {
+		if (!clienteComMesmoCpf.isEmpty())
+			for (var cliente : clienteComMesmoCpf)
 				if (cliente.getCodigo() != savedCliente.getCodigo())
 					throw new ClienteAlreadyExistsException();
-			}
-		}
 
 		BeanUtils.copyProperties(updatedCliente, savedCliente, "codigo");
 		return clienteRepository.save(savedCliente);

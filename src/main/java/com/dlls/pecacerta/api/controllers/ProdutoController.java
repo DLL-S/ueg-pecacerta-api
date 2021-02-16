@@ -1,6 +1,7 @@
 package com.dlls.pecacerta.api.controllers;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
-import com.dlls.pecacerta.api.exceptions.ProdutoAlreadyExistsException;
 import com.dlls.pecacerta.api.exceptions.ProdutoNoneExistentException;
 import com.dlls.pecacerta.api.model.Produto;
 import com.dlls.pecacerta.api.repositories.ProdutoRepository;
+import com.dlls.pecacerta.api.services.ProdutoService;
 
 @RestController
 @RequestMapping("/api/v1/produtos")
@@ -28,15 +29,14 @@ public class ProdutoController {
 	private ProdutoRepository produtoRepository;
 
 	@Autowired
+	private ProdutoService produtoService;
+	
+	@Autowired
 	private ApplicationEventPublisher publisher;
 
 	@PostMapping("")
-	public ResponseEntity<?> incluirProduto(@Validated @RequestBody Produto produto, HttpServletResponse response) {
-		if (!produtoRepository.findByCodigoDeBarras(produto.getCodigoDeBarras()).isEmpty()){
-			throw new ProdutoAlreadyExistsException();
-		}
-		
-		var savedProduto = this.produtoRepository.save(produto);
+	public ResponseEntity<?> incluirProduto(@Valid @RequestBody Produto produto, HttpServletResponse response) {
+		var savedProduto = produtoService.save(produto);
 
 		publisher.publishEvent(new ResourceCreatedEvent(this, response, savedProduto.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedProduto);
@@ -44,20 +44,10 @@ public class ProdutoController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> alterarProduto(@PathVariable(value = "id") Long produtoId,
-			@Validated @RequestBody Produto produtoParam) {
+			@Valid @RequestBody Produto produtoParam) {
 
-		var produto = produtoRepository.findById(produtoId).orElseThrow(
-				() -> new ProdutoNoneExistentException());
-
-		produto.setNome(produtoParam.getNome());
-		produto.setDescricao(produtoParam.getDescricao());
-		produto.setCategoria(produtoParam.getCategoria());
-		produto.setMarca(produtoParam.getMarca());
-		produto.setPreco(produtoParam.getPreco());
-		produto.setQtdeEstoque(produtoParam.getQtdeEstoque());
-		produto.setAtivo(produtoParam.getAtivo());
-
-		return ResponseEntity.ok(this.produtoRepository.save(produto));
+		var savedProduto = produtoService.update(produtoId, produtoParam);
+		return ResponseEntity.ok(savedProduto);
 	}
 
 	@GetMapping("/{id}")
@@ -80,7 +70,7 @@ public class ProdutoController {
 
 	@PutMapping("/{id}/ativo")
 	public ResponseEntity<?> ativarProduto(@PathVariable(value = "id") Long produtoId,
-			@Validated @RequestBody Boolean booleano) {
+			@Valid @RequestBody Boolean booleano) {
 
 		var produto = produtoRepository.findById(produtoId).orElseThrow(
 				() -> new ProdutoNoneExistentException());
