@@ -18,6 +18,9 @@ public class Marca {
 	
 	@Column(name = "marca_nome")
 	private String nome;
+
+	@Column(name = "marca_ativo")
+	private Boolean ativo;
 	
 	public Marca() {
 		

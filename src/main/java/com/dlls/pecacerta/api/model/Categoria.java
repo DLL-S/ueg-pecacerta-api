@@ -19,6 +19,9 @@ public class Categoria {
 	@Column(name = "cat_nome")
 	private String nome;
 	
+	@Column(name = "cat_ativo")
+	private Boolean ativo;
+	
 	public Categoria() {
 		
 	}

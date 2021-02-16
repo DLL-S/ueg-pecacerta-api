@@ -57,6 +57,9 @@ public class Funcionario {
 	        @AttributeOverride(name="estado", column=@Column(name="func_estado"))
 	    })
 		private Endereco endereco;
+		
+		@Column(name = "func_ativo")
+		private Boolean ativo;
 
 		@Column(name = "func_email", nullable = false)
 		@Size(max = 40)

@@ -48,6 +48,9 @@ public class Produto {
 	@NotNull
 	@Column(name = "prod_qtde_estoque")
 	private Integer qtdeEstoque;
+
+	@Column(name = "prod_ativo")
+	private Boolean ativo;
 	
 	public Produto() {
 		

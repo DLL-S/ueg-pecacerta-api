@@ -54,6 +54,9 @@ public class Cliente {
         @AttributeOverride(name="estado", column=@Column(name="cli_estado"))
     })
 	private Endereco endereco;
+	
+	@Column(name = "cli_ativo")
+	private Boolean ativo;
 
 	@Column(name = "cli_email", nullable = false)
 	@Size(max = 40)
