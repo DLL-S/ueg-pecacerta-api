@@ -24,19 +24,19 @@ import com.dlls.pecacerta.api.repositories.MarcaRepository;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/marca")
 public class MarcaController {
 	
 	@Autowired
 	private MarcaRepository marcaRepository;
 	
 	
-	@PostMapping("marcas")
+	@PostMapping("")
 	public Marca incluirMarca(@Validated @RequestBody Marca marca) {
 		return this.marcaRepository.save(marca);
 	}
 	
-	@PutMapping("marcas/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Marca> alterarMarca(@PathVariable(value = "id") Long marcaId,
 			@Validated @RequestBody Marca marcaParam) throws ResourceNotFoundException {
 		
@@ -44,12 +44,13 @@ public class MarcaController {
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhuma marca encontrada pelo código fornecido" + marcaId));
 		
 		marca.setNome(marcaParam.getNome());
+		marca.setAtivo(marcaParam.getAtivo());
 		
 		return ResponseEntity.ok(this.marcaRepository.save(marca));
 	}
 	
 	
-	@DeleteMapping("marcas/{id}")
+	@DeleteMapping("/{id}")
 	public Map<String, Boolean> excluirCategoria(@PathVariable(value = "id") Long marcaId) throws ResourceNotFoundException {
 		Marca marca = marcaRepository.findById(marcaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Animal não encontrado pelo id " + marcaId));
@@ -62,7 +63,7 @@ public class MarcaController {
 		return response;
 	}
 	
-	@GetMapping("marcas/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Marca>  consultarMarca(@PathVariable(value = "id") Long marcaId) throws ResourceNotFoundException {
 	
 		Marca marca = marcaRepository.findById(marcaId)
@@ -71,10 +72,28 @@ public class MarcaController {
 		return ResponseEntity.ok().body(marca);
 	}
 	
-	@GetMapping("marcas")
+	@GetMapping("")
 	public List<Marca> listarMarcas() {
 		
 		return this.marcaRepository.findAll();
 	}
-
+	
+	//List of all products
+	@GetMapping("/ativos")
+	public List<Marca> listarMarcasAtivas() {
+		return this.marcaRepository.findByAtivo(true);
+	}
+	
+	//Alter Product
+	@PutMapping("/{id}/ativar/{ativar}")
+	public ResponseEntity<Marca> ativarMarca(@PathVariable(value = "id") Long marcaId,
+			@PathVariable(value = "ativar") Boolean booleano) throws ResourceNotFoundException {
+		
+		Marca marca = marcaRepository.findById(marcaId)
+				.orElseThrow(() -> new ResourceNotFoundException("Nenhuma marca encontrado pelo código: " + marcaId));
+		
+		marca.setAtivo(booleano);
+		
+		return ResponseEntity.ok(this.marcaRepository.save(marca));
+	}
 }

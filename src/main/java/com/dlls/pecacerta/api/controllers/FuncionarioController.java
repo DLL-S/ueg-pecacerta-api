@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
+import com.dlls.pecacerta.api.exceptions.ResourceNotFoundException;
 import com.dlls.pecacerta.api.model.Funcionario;
 import com.dlls.pecacerta.api.repositories.FuncionarioRepository;
 import com.dlls.pecacerta.api.services.FuncionarioService;
 
 @RestController
-@RequestMapping("/api/v1/funcionarios")
+@RequestMapping("/api/v1/funcionario")
 public class FuncionarioController {
 
 	@Autowired
@@ -62,5 +63,24 @@ public class FuncionarioController {
 	public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Funcionario funcionario) {
 		Funcionario savedFuncionario = funcionarioService.update(id, funcionario);
 		return ResponseEntity.ok(savedFuncionario);
+	}
+	
+	//List of all products
+	@GetMapping("/ativos")
+	public List<Funcionario> listarFuncionariosAtivas() {
+		return this.funcionarioRepository.findByAtivo(true);
+	}
+	
+	//Alter Product
+	@PutMapping("/{id}/ativar/{ativar}")
+	public ResponseEntity<Funcionario> ativarFuncionario(@PathVariable(value = "id") Long funcionarioId,
+			@PathVariable(value = "ativar") Boolean booleano) throws ResourceNotFoundException {
+		
+		Funcionario funcionario = funcionarioRepository.findById(funcionarioId)
+				.orElseThrow(() -> new ResourceNotFoundException("Nenhum funcionario encontrado pelo código: " + funcionarioId));
+		
+		funcionario.setAtivo(booleano);
+		
+		return ResponseEntity.ok(this.funcionarioRepository.save(funcionario));
 	}
 }

@@ -131,4 +131,12 @@ public class Produto {
 	public void setQtdeEstoque(Integer qtdeEstoque) {
 		this.qtdeEstoque = qtdeEstoque;
 	}
+	
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 }

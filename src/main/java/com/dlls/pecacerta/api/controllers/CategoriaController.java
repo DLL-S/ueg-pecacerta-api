@@ -43,6 +43,7 @@ public class CategoriaController {
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhuma categoria encontrada pelo código " + categoriaId));
 		
 		categoria.setNome(categoriaParam.getNome());
+		categoria.setAtivo(categoriaParam.getAtivo());
 		
 		return ResponseEntity.ok(this.categoriaRepository.save(categoria));
 	}
@@ -75,6 +76,23 @@ public class CategoriaController {
 		
 		return this.categoriaRepository.findAll();
 	}
-
-
+	
+	//List of all products
+	@GetMapping("/ativos")
+	public List<Categoria> listarCategoriasAtivas() {
+		return this.categoriaRepository.findByAtivo(true);
+	}
+	
+	//Alter Product
+	@PutMapping("/{id}/ativar/{ativar}")
+	public ResponseEntity<Categoria> ativarCategoria(@PathVariable(value = "id") Long categoriaId,
+			@PathVariable(value = "ativar") Boolean booleano) throws ResourceNotFoundException {
+		
+		Categoria categoria = categoriaRepository.findById(categoriaId)
+				.orElseThrow(() -> new ResourceNotFoundException("Nenhuma categoria encontrado pelo código: " + categoriaId));
+		
+		categoria.setAtivo(booleano);
+		
+		return ResponseEntity.ok(this.categoriaRepository.save(categoria));
+	}
 }

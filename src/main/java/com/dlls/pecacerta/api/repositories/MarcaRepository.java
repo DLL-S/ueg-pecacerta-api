@@ -7,7 +7,8 @@ import com.dlls.pecacerta.api.model.Marca;
 
 public interface MarcaRepository extends JpaRepository<Marca, Long>{
 	
-	public List<Marca> findByNomeIgnoreCase(String name);
+	List<Marca> findByNomeIgnoreCase(String name);
+	List<Marca> findByAtivo(Boolean ativo);
 
 
 }

@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
+import com.dlls.pecacerta.api.exceptions.ResourceNotFoundException;
 import com.dlls.pecacerta.api.model.Cliente;
 import com.dlls.pecacerta.api.repositories.ClienteRepository;
 import com.dlls.pecacerta.api.services.ClienteService;
 
 @RestController
-@RequestMapping("/api/v1/clientes")
+@RequestMapping("/api/v1/cliente")
 public class ClienteController {
 
 	@Autowired
@@ -62,5 +63,24 @@ public class ClienteController {
 	public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
 		Cliente savedCliente = clienteService.update(id, cliente);
 		return ResponseEntity.ok(savedCliente);
+	}
+	
+	//List of all products
+	@GetMapping("/ativos")
+	public List<Cliente> listarClientesAtivas() {
+		return this.clienteRepository.findByAtivo(true);
+	}
+	
+	//Alter Product
+	@PutMapping("/{id}/ativar/{ativar}")
+	public ResponseEntity<Cliente> ativarCliente(@PathVariable(value = "id") Long clienteId,
+			@PathVariable(value = "ativar") Boolean booleano) throws ResourceNotFoundException {
+		
+		Cliente cliente = clienteRepository.findById(clienteId)
+				.orElseThrow(() -> new ResourceNotFoundException("Nenhum cliente encontrado pelo código: " + clienteId));
+		
+		cliente.setAtivo(booleano);
+		
+		return ResponseEntity.ok(this.clienteRepository.save(cliente));
 	}
 }

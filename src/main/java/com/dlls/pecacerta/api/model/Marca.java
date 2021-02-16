@@ -21,7 +21,7 @@ public class Marca {
 
 	@Column(name = "marca_ativo")
 	private Boolean ativo;
-	
+
 	public Marca() {
 		
 	}
@@ -47,5 +47,11 @@ public class Marca {
 		this.nome = nome;
 	}
 	
-	
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 }

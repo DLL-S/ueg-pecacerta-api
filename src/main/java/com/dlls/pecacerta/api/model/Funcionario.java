@@ -133,6 +133,14 @@ public class Funcionario {
 		public void setTelefone(String telefone) {
 			this.telefone = telefone;
 		}
+		
+		public Boolean getAtivo() {
+			return ativo;
+		}
+
+		public void setAtivo(Boolean ativo) {
+			this.ativo = ativo;
+		}
 
 		@Override
 		public int hashCode() {
