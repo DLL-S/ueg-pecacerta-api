@@ -20,7 +20,7 @@ public class ClienteService {
 	private ClienteRepository clienteRepository;
 
 	public Cliente findCliente(Long codigo) {
-		Cliente savedPerson = clienteRepository.findById(codigo)
+		var savedPerson = clienteRepository.findById(codigo)
 				.orElseThrow(() -> new ClienteNoneExistentException());
 		return savedPerson;
 	}
@@ -33,11 +33,11 @@ public class ClienteService {
 	}
 
 	public Cliente update(Long codigo, @Valid Cliente updatedCliente) {
-		Cliente savedCliente = findCliente(codigo);
+		var savedCliente = findCliente(codigo);
 		
-		List<Cliente> clienteComMesmoCpf = clienteRepository.findByCpfCnpj(updatedCliente.getCpfCnpj());
+		var clienteComMesmoCpf = clienteRepository.findByCpfCnpj(updatedCliente.getCpfCnpj());
 		if(!clienteComMesmoCpf.isEmpty()) {
-			for (Cliente cliente : clienteComMesmoCpf) {
+			for (var cliente : clienteComMesmoCpf) {
 				if(cliente.getCodigo() != savedCliente.getCodigo())
 					throw new ClienteAlreadyExistsException();
 			}

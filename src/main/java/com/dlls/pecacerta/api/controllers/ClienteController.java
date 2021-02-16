@@ -39,21 +39,21 @@ public class ClienteController {
 	
 	@GetMapping
 	public ResponseEntity<?> getAll() {
-		List<Cliente> clientes = clienteRepository.findAll();
+		var clientes = clienteRepository.findAll();
 		return clientes.isEmpty() ? 
 				ResponseEntity.noContent().build() : ResponseEntity.ok(clientes);
 	}
 	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<?> getById(@PathVariable Long codigo) {
-		Optional<Cliente> clientes = clienteRepository.findById(codigo); 
+		var clientes = clienteRepository.findById(codigo); 
 		return clientes.isEmpty() ? 
 				ResponseEntity.notFound().build() : ResponseEntity.ok(clientes);
 	}
 	
 	@PostMapping
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, HttpServletResponse response) {
-		Cliente savedCliente = clienteService.save(cliente);
+		var savedCliente = clienteService.save(cliente);
 		
 		publisher.publishEvent(new ResourceCreatedEvent(this, response, savedCliente.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedCliente);
@@ -61,22 +61,24 @@ public class ClienteController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
-		Cliente savedCliente = clienteService.update(id, cliente);
+		var savedCliente = clienteService.update(id, cliente);
 		return ResponseEntity.ok(savedCliente);
 	}
 	
 	//List of all products
 	@GetMapping("/ativos")
-	public List<Cliente> listarClientesAtivas() {
-		return this.clienteRepository.findByAtivo(true);
+	public ResponseEntity<?> listarClientesAtivas() {
+		var clientes = this.clienteRepository.findByAtivo(true);
+		return clientes.isEmpty() ? 
+				ResponseEntity.noContent().build() : ResponseEntity.ok(clientes);
 	}
 	
 	//Alter Product
 	@PutMapping("/{id}/ativar/{ativar}")
-	public ResponseEntity<Cliente> ativarCliente(@PathVariable(value = "id") Long clienteId,
+	public ResponseEntity<?> ativarCliente(@PathVariable(value = "id") Long clienteId,
 			@PathVariable(value = "ativar") Boolean booleano) throws ResourceNotFoundException {
 		
-		Cliente cliente = clienteRepository.findById(clienteId)
+		var cliente = clienteRepository.findById(clienteId)
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhum cliente encontrado pelo código: " + clienteId));
 		
 		cliente.setAtivo(booleano);

@@ -4,7 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dlls.pecacerta.api.events.ResourceCreatedEvent;
 import com.dlls.pecacerta.api.exceptions.ResourceNotFoundException;
 import com.dlls.pecacerta.api.model.Produto;
 import com.dlls.pecacerta.api.repositories.ProdutoRepository;
@@ -29,21 +34,27 @@ public class ProdutoController {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+
+	@Autowired
+	private ApplicationEventPublisher publisher;
 	
 	//***Métodos do Crud***//
 	
 	//Insert Product
 	@PostMapping("")
-	public Produto incluirProduto(@Validated @RequestBody Produto produto) {
-		return this.produtoRepository.save(produto);
+	public ResponseEntity<?> incluirProduto(@Validated @RequestBody Produto produto, HttpServletResponse response) {
+		var savedProduto = this.produtoRepository.save(produto);
+		
+		publisher.publishEvent(new ResourceCreatedEvent(this, response, savedProduto.getCodigo()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedProduto);
 	}
 	
 	//Alter Product
 	@PutMapping("/{id}")
-	public ResponseEntity<Produto> alterarProduto(@PathVariable(value = "id") Long produtoId,
+	public ResponseEntity<?> alterarProduto(@PathVariable(value = "id") Long produtoId,
 			@Validated @RequestBody Produto produtoParam) throws ResourceNotFoundException {
 		
-		Produto produto = produtoRepository.findById(produtoId)
+		var produto = produtoRepository.findById(produtoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhum produto encontrado pelo código: " + produtoId));
 		
 		produto.setNome(produtoParam.getNome());
@@ -57,25 +68,11 @@ public class ProdutoController {
 		return ResponseEntity.ok(this.produtoRepository.save(produto));
 	}
 	
-	//Delete Product
-	@DeleteMapping("/{id}")
-	public Map<String, Boolean> excluirProduto(@PathVariable(value = "id") Long produtoId) throws ResourceNotFoundException {
-		Produto produto = produtoRepository.findById(produtoId)
-				.orElseThrow(() -> new ResourceNotFoundException("Nenhum produto encontrado pelo código " + produtoId));
-		
-		this.produtoRepository.delete(produto);
-		
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("Produto Excluído", true);
-		
-		return response;
-	}
-	
 	//Search Product by ID
 	@GetMapping("/{id}")
-	public ResponseEntity<Produto>  consultarProduto(@PathVariable(value = "id") Long produtoId) throws ResourceNotFoundException {
+	public ResponseEntity<?> consultarProduto(@PathVariable(value = "id") Long produtoId) throws ResourceNotFoundException {
 	
-		Produto produto = produtoRepository.findById(produtoId)
+		var produto = produtoRepository.findById(produtoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhum produto encontrado pelo código: " + produtoId));
 	
 		return ResponseEntity.ok().body(produto);
@@ -83,22 +80,26 @@ public class ProdutoController {
 	
 	//List of all products
 	@GetMapping("")
-	public List<Produto> listarProdutos() {
-		return this.produtoRepository.findAll();
+	public ResponseEntity<?> listarProdutos() {
+		var produtos = this.produtoRepository.findAll();
+		return produtos.isEmpty() ? 
+				ResponseEntity.noContent().build() : ResponseEntity.ok(produtos);
 	}
 	
 	//List of all products
 	@GetMapping("/ativos")
-	public List<Produto> listarProdutosAtivos() {
-		return this.produtoRepository.findByAtivo(true);
+	public ResponseEntity<?> listarProdutosAtivos() {
+		var produtos = this.produtoRepository.findByAtivo(true);
+		return produtos.isEmpty() ? 
+				ResponseEntity.noContent().build() : ResponseEntity.ok(produtos);
 	}
 	
 	//Alter Product
 	@PutMapping("/{id}/ativar/{ativar}")
-	public ResponseEntity<Produto> ativarProduto(@PathVariable(value = "id") Long produtoId,
+	public ResponseEntity<?> ativarProduto(@PathVariable(value = "id") Long produtoId,
 			@PathVariable(value = "ativar") Boolean booleano) throws ResourceNotFoundException {
 		
-		Produto produto = produtoRepository.findById(produtoId)
+		var produto = produtoRepository.findById(produtoId)
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhum produto encontrado pelo código: " + produtoId));
 		
 		produto.setAtivo(booleano);

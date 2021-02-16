@@ -20,7 +20,7 @@ public class FuncionarioService {
 	private FuncionarioRepository funcionarioRepository;
 
 	public Funcionario findFuncionario(Long codigo) {
-		Funcionario savedPerson = funcionarioRepository.findById(codigo)
+		var savedPerson = funcionarioRepository.findById(codigo)
 				.orElseThrow(() -> new FuncionarioNonexistentException());
 		return savedPerson;
 	}
@@ -33,11 +33,11 @@ public class FuncionarioService {
 	}
 
 	public Funcionario update(Long codigo, @Valid Funcionario updatedFuncionario) {
-		Funcionario savedFuncionario = findFuncionario(codigo);
+		var savedFuncionario = findFuncionario(codigo);
 		
-		List<Funcionario> funcionarioComMesmoCpf = funcionarioRepository.findByCpf(updatedFuncionario.getCpf());
+		var funcionarioComMesmoCpf = funcionarioRepository.findByCpf(updatedFuncionario.getCpf());
 		if(!funcionarioComMesmoCpf.isEmpty()) {
-			for (Funcionario funcionario : funcionarioComMesmoCpf) {
+			for (var funcionario : funcionarioComMesmoCpf) {
 				if(funcionario.getCodigo() != savedFuncionario.getCodigo())
 					throw new FuncionarioAlreadyExistsException();
 			}

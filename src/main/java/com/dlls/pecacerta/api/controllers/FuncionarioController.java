@@ -39,21 +39,21 @@ public class FuncionarioController {
 	
 	@GetMapping
 	public ResponseEntity<?> getAll() {
-		List<Funcionario> funcionarios = funcionarioRepository.findAll();
+		var funcionarios = funcionarioRepository.findAll();
 		return funcionarios.isEmpty() ? 
 				ResponseEntity.noContent().build() : ResponseEntity.ok(funcionarios);
 	}
 	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<?> getById(@PathVariable Long codigo) {
-		Optional<Funcionario> funcionarios = funcionarioRepository.findById(codigo); 
+		var funcionarios = funcionarioRepository.findById(codigo); 
 		return funcionarios.isEmpty() ? 
 				ResponseEntity.notFound().build() : ResponseEntity.ok(funcionarios);
 	}
 	
 	@PostMapping
 	public ResponseEntity<?> create(@Valid @RequestBody Funcionario funcionario, HttpServletResponse response) {
-		Funcionario savedFuncionario = funcionarioService.save(funcionario);
+		var savedFuncionario = funcionarioService.save(funcionario);
 		
 		publisher.publishEvent(new ResourceCreatedEvent(this, response, savedFuncionario.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedFuncionario);
@@ -61,22 +61,24 @@ public class FuncionarioController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Funcionario funcionario) {
-		Funcionario savedFuncionario = funcionarioService.update(id, funcionario);
+		var savedFuncionario = funcionarioService.update(id, funcionario);
 		return ResponseEntity.ok(savedFuncionario);
 	}
 	
 	//List of all products
 	@GetMapping("/ativos")
-	public List<Funcionario> listarFuncionariosAtivas() {
-		return this.funcionarioRepository.findByAtivo(true);
+	public ResponseEntity<?> listarFuncionariosAtivas() {
+		var funcionarios = this.funcionarioRepository.findByAtivo(true);
+		return funcionarios.isEmpty() ? 
+				ResponseEntity.noContent().build() : ResponseEntity.ok(funcionarios);
 	}
 	
 	//Alter Product
 	@PutMapping("/{id}/ativar/{ativar}")
-	public ResponseEntity<Funcionario> ativarFuncionario(@PathVariable(value = "id") Long funcionarioId,
+	public ResponseEntity<?> ativarFuncionario(@PathVariable(value = "id") Long funcionarioId,
 			@PathVariable(value = "ativar") Boolean booleano) throws ResourceNotFoundException {
 		
-		Funcionario funcionario = funcionarioRepository.findById(funcionarioId)
+		var funcionario = funcionarioRepository.findById(funcionarioId)
 				.orElseThrow(() -> new ResourceNotFoundException("Nenhum funcionario encontrado pelo código: " + funcionarioId));
 		
 		funcionario.setAtivo(booleano);
