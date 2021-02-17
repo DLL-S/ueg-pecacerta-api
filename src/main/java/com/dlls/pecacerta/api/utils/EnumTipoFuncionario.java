@@ -1,8 +1,6 @@
 package com.dlls.pecacerta.api.utils;
 
-public enum TipoFuncionario {
-	
-	Atendente,
+public enum EnumTipoFuncionario {
+	Atendente, 
 	Gerente
-	
 }

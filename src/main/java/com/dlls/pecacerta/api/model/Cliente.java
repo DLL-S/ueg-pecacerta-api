@@ -22,7 +22,6 @@ import com.dlls.pecacerta.api.utils.EnumTipoCliente;
 @Entity
 @Table(name = "clientes")
 public class Cliente {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
@@ -44,16 +43,17 @@ public class Cliente {
 
 	@Embedded
 	@Valid
-	@AttributeOverrides({
-        @AttributeOverride(name="logradouro", column=@Column(name="cli_logradouro")),
-        @AttributeOverride(name="numero", column=@Column(name="cli_numero")),
-        @AttributeOverride(name="complemento", column=@Column(name="cli_complemento")),
-        @AttributeOverride(name="bairro", column=@Column(name="cli_bairro")),
-        @AttributeOverride(name="cep", column=@Column(name="cli_cep")),
-        @AttributeOverride(name="cidade", column=@Column(name="cli_cidade")),
-        @AttributeOverride(name="estado", column=@Column(name="cli_estado"))
-    })
+	@AttributeOverrides({ @AttributeOverride(name = "logradouro", column = @Column(name = "cli_logradouro")),
+			@AttributeOverride(name = "numero", column = @Column(name = "cli_numero")),
+			@AttributeOverride(name = "complemento", column = @Column(name = "cli_complemento")),
+			@AttributeOverride(name = "bairro", column = @Column(name = "cli_bairro")),
+			@AttributeOverride(name = "cep", column = @Column(name = "cli_cep")),
+			@AttributeOverride(name = "cidade", column = @Column(name = "cli_cidade")),
+			@AttributeOverride(name = "estado", column = @Column(name = "cli_estado")) })
 	private Endereco endereco;
+
+	@Column(name = "cli_ativo")
+	private Boolean ativo;
 
 	@Column(name = "cli_email", nullable = false)
 	@Size(max = 40)
@@ -75,27 +75,27 @@ public class Cliente {
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public EnumTipoCliente getTipoCliente() {
 		return tipoCliente;
 	}
-	
+
 	public void setTipoCliente(EnumTipoCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
 	}
-	
+
 	public String getCpfCnpj() {
 		return cpfCnpj;
 	}
-	
+
 	public void setCpfCnpj(String cpf_cnpj) {
 		this.cpfCnpj = cpf_cnpj;
 	}
-	
+
 	public LocalDate getDataDeNascimento() {
 		return dataDeNascimento;
 	}
@@ -107,24 +107,32 @@ public class Cliente {
 	public Endereco getEndereco() {
 		return endereco;
 	}
-	
+
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getTelefone() {
 		return telefone;
 	}
-	
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 }
