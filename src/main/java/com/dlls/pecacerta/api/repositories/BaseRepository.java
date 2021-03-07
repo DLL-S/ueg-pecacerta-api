@@ -11,6 +11,6 @@ import com.dlls.pecacerta.api.model.BaseModel;
 public interface BaseRepository<TModel extends BaseModel>{
 	Optional<TModel> findById(Long id);
 	List<TModel> findByAtivo(Boolean ativo);
-	<S extends TModel> S save(S entity);
+	TModel save(TModel entity);
 	List<TModel> findAll();
 }
