@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Produtos")
-public class Produto {
+public class Produto extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "prod_codigo")
@@ -66,6 +66,7 @@ public class Produto {
 		this.ativo = ativo;
 	}
 
+	@Override
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -134,6 +135,7 @@ public class Produto {
 		return ativo;
 	}
 
+	@Override
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}

@@ -21,7 +21,7 @@ import com.dlls.pecacerta.api.utils.EnumTipoCliente;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class Cliente extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
@@ -64,6 +64,7 @@ public class Cliente {
 	@Size(min = 8, max = 12)
 	private String telefone;
 
+	@Override
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -132,6 +133,7 @@ public class Cliente {
 		return ativo;
 	}
 
+	@Override
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
