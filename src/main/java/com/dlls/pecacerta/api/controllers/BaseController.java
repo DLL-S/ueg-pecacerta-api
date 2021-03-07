@@ -24,7 +24,7 @@ import com.dlls.pecacerta.api.services.BaseService;
 public abstract class BaseController<TModel extends BaseModel, TRepository extends BaseRepository<TModel>, TService extends BaseService<TModel, TRepository>>
 {
 	@Autowired
-	private TService servico;
+	protected TService servico;
 
 	@Autowired
 	private ApplicationEventPublisher publisher;

@@ -27,6 +27,12 @@ public class ProdutosVenda {
 	@Column(name = "vnd_quantidade_produto")
 	private Integer quantidade;
 	
+	public ProdutosVenda(Long codigoProduto, Long codigoVenda, int quantidade) {
+		this.codigoProduto = codigoProduto;
+		this.codigoVenda = codigoVenda;
+		this.quantidade = quantidade;
+	}
+
 	public Long getCodigoProduto() {
 		return codigoProduto;
 	}

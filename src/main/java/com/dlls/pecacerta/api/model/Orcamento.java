@@ -66,5 +66,36 @@ public class Orcamento extends BaseModel{
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
+	
+	public Date getData() {
+		return data;
+	}
 
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	public Double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
+	}
+
+	public List<ProdutosOrcamento> getProdutosOrcamento() {
+		return produtosOrcamento;
+	}
+
+	public void setProdutosOrcamento(List<ProdutosOrcamento> produtosOrcamento) {
+		this.produtosOrcamento = produtosOrcamento;
+	}
 }

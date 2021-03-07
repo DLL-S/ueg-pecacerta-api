@@ -27,6 +27,12 @@ public class ProdutosOrcamento {
 	@Column(name = "orca_quantidade_produto")
 	private Integer quantidade;
 	
+	public ProdutosOrcamento(Long codigoProduto, Long codigoOrcamento, int quantidade) {
+		this.codigoProduto = codigoProduto;
+		this.codigoOrcamento = codigoOrcamento;
+		this.quantidade = quantidade;
+	}
+
 	public Long getCodigoProduto() {
 		return codigoProduto;
 	}
