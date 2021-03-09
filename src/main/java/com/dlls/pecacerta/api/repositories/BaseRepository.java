@@ -12,4 +12,5 @@ public interface BaseRepository<TModel extends BaseModel>{
 	Optional<TModel> findById(Long id);
 	List<TModel> findByAtivo(Boolean ativo);
 	List<TModel> findAll();
+	TModel save(TModel model);
 }

@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.dlls.pecacerta.api.model.BaseModel;
@@ -24,7 +23,7 @@ public abstract class BaseService<TModel extends BaseModel, TRepository extends 
 	}
 	
 	public TModel save(@Valid TModel model) {
-		return ((JpaRepository<TModel, Long>) repository).save(model);
+		return repository.save(model);
 	}
 	
 	public List<TModel> findAll()
@@ -36,13 +35,13 @@ public abstract class BaseService<TModel extends BaseModel, TRepository extends 
 		var savedModel = find(codigo);
 
 		BeanUtils.copyProperties(updatedModel, savedModel, "codigo");
-		return ((JpaRepository<TModel, Long>) repository).save(savedModel);
+		return repository.save(savedModel);
 	}
 	
 	public TModel alteraStatus(Long id, Boolean ativo){
 		var model = find(id);
 		model.setAtivo(ativo);
-		return ((JpaRepository<TModel, Long>) repository).save(model);
+		return repository.save(model);
 	}
 
 	public List<TModel> findAtivo() {

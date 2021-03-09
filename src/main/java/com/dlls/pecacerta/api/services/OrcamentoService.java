@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 import com.dlls.pecacerta.api.model.Orcamento;
 import com.dlls.pecacerta.api.model.Produto;
 import com.dlls.pecacerta.api.model.ProdutosOrcamento;
-import com.dlls.pecacerta.api.model.ProdutosVenda;
-import com.dlls.pecacerta.api.model.Venda;
 import com.dlls.pecacerta.api.repositories.OrcamentoRepository;
 
 @Component
