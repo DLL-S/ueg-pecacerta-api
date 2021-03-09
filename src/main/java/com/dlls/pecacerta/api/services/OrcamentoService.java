@@ -1,5 +1,6 @@
 package com.dlls.pecacerta.api.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dlls.pecacerta.api.model.Orcamento;
@@ -9,7 +10,11 @@ import com.dlls.pecacerta.api.repositories.OrcamentoRepository;
 
 @Component
 public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository> {
-	public Orcamento addProdutosOrcamento(Long id, Produto param, Integer quantidade) {
+	@Autowired
+	ProdutoService prodService;
+	
+	public Orcamento addProdutosOrcamento(Long id, Long idprod, Integer quantidade) {
+		var param = prodService.find(idprod);
 		var orcamento = find(id);
 		var prodOrcamento = orcamento.getProdutosOrcamento();
 		ProdutosOrcamento orcamentoProduto;
