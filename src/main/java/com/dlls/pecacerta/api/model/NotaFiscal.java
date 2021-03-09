@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "notas_fiscais")
-public class NotaFiscal {
+public class NotaFiscal  extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "nf_codigo")
@@ -23,6 +23,13 @@ public class NotaFiscal {
 	@NotNull
 	@Column(name = "nf_codigo_venda")
 	private Long codigoVenda;
+
+	@Column(name = "nf_ativo")
+	private Boolean ativo;
+
+	public NotaFiscal(Long codigoVenda) {
+		this.codigoVenda = codigoVenda;
+	}
 
 	public Long getCodigo() {
 		return codigo;
@@ -46,5 +53,10 @@ public class NotaFiscal {
 
 	public void setCodigoVenda(Long codigoVenda) {
 		this.codigoVenda = codigoVenda;
+	}
+
+	@Override
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 }

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.dlls.pecacerta.api.model.Orcamento;
 import com.dlls.pecacerta.api.model.Venda;
 
 public interface VendaRepository extends BaseRepository<Venda>, JpaRepository<Venda, Long>  {

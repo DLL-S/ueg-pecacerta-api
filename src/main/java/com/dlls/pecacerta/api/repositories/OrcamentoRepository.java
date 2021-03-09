@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.dlls.pecacerta.api.model.Orcamento;
 
-public interface OrcamentoRepository extends BaseRepository<Orcamento>, JpaRepository<Orcamento, Long>  {
+public interface OrcamentoRepository extends BaseRepository<Orcamento>, JpaRepository<Orcamento, Long> {
 	Optional<Orcamento> findById(Long id);
 	List<Orcamento> findByAtivo(Boolean ativo);
 	@SuppressWarnings("unchecked")
