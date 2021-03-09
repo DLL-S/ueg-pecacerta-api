@@ -10,4 +10,6 @@ public interface FuncionarioRepository extends BaseRepository<Funcionario>, JpaR
 	List<Funcionario> findByCpf(String cpf);
 	Optional<Funcionario> findById(Long id);
 	List<Funcionario> findByAtivo(Boolean ativo);
+	@SuppressWarnings("unchecked")
+	Funcionario save(Funcionario model);
 }

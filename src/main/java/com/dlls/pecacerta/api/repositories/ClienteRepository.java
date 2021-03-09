@@ -10,4 +10,6 @@ public interface ClienteRepository extends BaseRepository<Cliente>, JpaRepositor
 	List<Cliente> findByCpfCnpj(String cpfCnpj);
 	Optional<Cliente> findById(Long id);
 	List<Cliente> findByAtivo(Boolean ativo);
+	@SuppressWarnings("unchecked")
+	Cliente save(Cliente model);
 }

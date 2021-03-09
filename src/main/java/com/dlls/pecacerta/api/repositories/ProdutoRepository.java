@@ -10,4 +10,6 @@ public interface ProdutoRepository extends BaseRepository<Produto>, JpaRepositor
 	List<Produto> findByCodigoDeBarras(String codigoDeBarras);
 	Optional<Produto> findById(Long id);
 	List<Produto> findByAtivo(Boolean ativo);
+	@SuppressWarnings("unchecked")
+	Produto save(Produto model);
 }

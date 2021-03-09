@@ -10,4 +10,6 @@ public interface MarcaRepository extends BaseRepository<Marca>, JpaRepository<Ma
 	List<Marca> findByNomeIgnoreCase(String name);
 	Optional<Marca> findById(Long id);
 	List<Marca> findByAtivo(Boolean ativo);
+	@SuppressWarnings("unchecked")
+	Marca save(Marca model);
 }

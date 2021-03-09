@@ -11,4 +11,6 @@ public interface CategoriaRepository extends BaseRepository<Categoria>, JpaRepos
 	List<Categoria> findByNomeIgnoreCase(String name);
 	Optional<Categoria> findById(Long id);
 	List<Categoria> findByAtivo(Boolean ativo);
+	@SuppressWarnings("unchecked")
+	Categoria save(Categoria model);
 }
