@@ -31,7 +31,7 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 			orcamentoProduto = prodOrcamento.stream().filter(x -> x.getCodigoProduto() == param.getCodigo()).findFirst().get();
 			prodOrcamento.remove(orcamentoProduto);
 			var qtdOld = orcamentoProduto.getQuantidade();
-			var newQtd = qtdOld + quantidade;
+			var newQtd = qtdOld + quantidade > 0 ? qtdOld + quantidade : 0;
 			orcamentoProduto.setQuantidade(newQtd);
 		}
 		else
