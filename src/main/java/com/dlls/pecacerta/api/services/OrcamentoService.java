@@ -41,7 +41,8 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 		
 		prodOrcamento.add(orcamentoProduto);
 		orcamento.setProdutosOrcamento(prodOrcamento);
-		return this.save(orcamento);
+		
+		return this.save(atualizaValorTotal(orcamento));
 	}
 
 	@Override
@@ -55,6 +56,17 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 		produtos.forEach((x)-> x.setCodigoOrcamento(savedOrca.getCodigo()));
 		prodOrcaRepo.saveAll(produtos);
 		savedOrca.setProdutosOrcamento(produtos);
-		return savedOrca;
+		return atualizaValorTotal(savedOrca);
+	}
+	
+	private Orcamento atualizaValorTotal(Orcamento model)
+	{
+		Double valores = 0.0;
+		for (var iterable_element : model.getProdutosOrcamento()) {
+			valores += iterable_element.getQuantidade()*prodService.consulteValor(iterable_element.getCodigoProduto());
+		}
+		
+		model.setValorTotal(valores);
+		return model;
 	}
 }

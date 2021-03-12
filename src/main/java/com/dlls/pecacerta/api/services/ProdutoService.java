@@ -30,4 +30,8 @@ public class ProdutoService extends BaseService<Produto, ProdutoRepository>{
 		BeanUtils.copyProperties(produto, savedProduto, "codigo");
 		return repository.save(savedProduto);
 	}
+	public double consulteValor(Long id)
+	{
+		return find(id).getPreco();
+	}
 }
