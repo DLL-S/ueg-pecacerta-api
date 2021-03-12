@@ -101,7 +101,7 @@ public class Cliente extends BaseModel {
 		return dataNascFund;
 	}
 
-	public void setNascFund(LocalDate dataDeNascimento) {
+	public void setDataNascFund(LocalDate dataDeNascimento) {
 		this.dataNascFund = dataDeNascimento;
 	}
 
