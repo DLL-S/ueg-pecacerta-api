@@ -56,7 +56,7 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 		produtos.forEach((x)-> x.setCodigoOrcamento(savedOrca.getCodigo()));
 		prodOrcaRepo.saveAll(produtos);
 		savedOrca.setProdutosOrcamento(produtos);
-		return atualizaValorTotal(savedOrca);
+		return super.save(atualizaValorTotal(savedOrca));
 	}
 	
 	private Orcamento atualizaValorTotal(Orcamento model)
