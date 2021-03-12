@@ -39,7 +39,7 @@ public class Cliente extends BaseModel {
 	private String cpfCnpj;
 
 	@Column(name = "cli_data_nasc", nullable = false)
-	private LocalDate dataDeNascimento;
+	private LocalDate dataNascFund;
 
 	@Embedded
 	@Valid
@@ -98,11 +98,11 @@ public class Cliente extends BaseModel {
 	}
 
 	public LocalDate getDataDeNascimento() {
-		return dataDeNascimento;
+		return dataNascFund;
 	}
 
 	public void setDataDeNascimento(LocalDate dataDeNascimento) {
-		this.dataDeNascimento = dataDeNascimento;
+		this.dataNascFund = dataDeNascimento;
 	}
 
 	public Endereco getEndereco() {
