@@ -97,11 +97,11 @@ public class Cliente extends BaseModel {
 		this.cpfCnpj = cpf_cnpj;
 	}
 
-	public LocalDate getDataDeNascimento() {
+	public LocalDate getDataNascFund() {
 		return dataNascFund;
 	}
 
-	public void setDataDeNascimento(LocalDate dataDeNascimento) {
+	public void setNascFund(LocalDate dataDeNascimento) {
 		this.dataNascFund = dataDeNascimento;
 	}
 
