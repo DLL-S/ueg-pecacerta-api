@@ -35,7 +35,7 @@ public class Cliente extends BaseModel {
 	private EnumTipoCliente tipoCliente;
 
 	@Column(name = "cli_cpf_cnpj", nullable = false, unique = true)
-	@Size(min = 11, max = 11)
+	@Size(min = 11, max = 14)
 	private String cpfCnpj;
 
 	@Column(name = "cli_data_nasc", nullable = false)
@@ -53,7 +53,7 @@ public class Cliente extends BaseModel {
 	private Endereco endereco;
 
 	@Column(name = "cli_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	@Column(name = "cli_email", nullable = false)
 	@Size(max = 40)

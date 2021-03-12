@@ -19,7 +19,7 @@ public class Marca extends BaseModel {
 	private String nome;
 
 	@Column(name = "marca_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	public Marca() {
 	}

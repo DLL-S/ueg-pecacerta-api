@@ -90,6 +90,12 @@
 	        <artifactId>springfox-bean-validators</artifactId>
 	        <version>2.9.2</version>
 	    </dependency>
+	    <!-- validação -->
+		<dependency>
+			<groupId>com.github.gilmardeveloper</groupId>
+			<artifactId>safeguard</artifactId>
+			<version>0.0.1-RELEASE</version>
+		</dependency>
 		<!-- OAuth props 
 	    <dependency>
 	        <groupId>org.springframework.boot</groupId>

@@ -65,7 +65,7 @@ public class Funcionario extends BaseModel {
 	private String telefone;
 
 	@Column(name = "func_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	@Override
 	public Long getCodigo() {

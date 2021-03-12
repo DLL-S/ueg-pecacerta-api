@@ -19,7 +19,7 @@ public class Categoria extends BaseModel {
 	private String nome;
 
 	@Column(name = "cat_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	public Categoria() {
 	}

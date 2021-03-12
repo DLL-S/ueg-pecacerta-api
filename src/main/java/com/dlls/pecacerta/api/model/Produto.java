@@ -48,7 +48,7 @@ public class Produto extends BaseModel {
 	private Integer qtdeEstoque;
 
 	@Column(name = "prod_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	public Produto() {
 	}

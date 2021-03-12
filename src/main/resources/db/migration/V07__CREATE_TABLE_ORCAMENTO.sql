@@ -4,7 +4,6 @@ CREATE TABLE orcamentos (
 	orca_data date NOT NULL,
 	orca_valor_total double precision NOT NULL,
 	orca_observacoes varchar NULL,
-	orca_produtos_orcamento varchar not null,
 	orca_ativo bool NOT NULL DEFAULT true,
 	CONSTRAINT fk_clientes FOREIGN KEY (orca_cliente)
         REFERENCES clientes(codigo)

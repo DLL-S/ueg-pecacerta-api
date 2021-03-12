@@ -25,7 +25,7 @@ public class NotaFiscal  extends BaseModel {
 	private Long codigoVenda;
 
 	@Column(name = "nf_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	public NotaFiscal(Long codigoVenda) {
 		this.codigoVenda = codigoVenda;

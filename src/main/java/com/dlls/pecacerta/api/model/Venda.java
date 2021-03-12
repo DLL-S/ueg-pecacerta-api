@@ -53,7 +53,7 @@ public class Venda extends BaseModel {
 	private List<ProdutosVenda> produtosVenda;
 
 	@Column(name = "vnd_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	@Override
 	public Long getCodigo() {

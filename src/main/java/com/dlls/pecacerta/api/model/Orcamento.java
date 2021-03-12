@@ -3,12 +3,15 @@ package com.dlls.pecacerta.api.model;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,13 +36,12 @@ public class Orcamento extends BaseModel{
 	
 	@Column(name = "orca_observacoes")
 	private String observacoes;
-	
-	@OneToMany
-	@JoinColumn(name = "orca_produtos_orcamento")
+
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="codigoOrcamento")
 	private List<ProdutosOrcamento> produtosOrcamento;
 	
 	@Column(name = "orca_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;

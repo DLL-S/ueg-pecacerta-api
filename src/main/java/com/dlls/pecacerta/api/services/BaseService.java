@@ -31,11 +31,11 @@ public abstract class BaseService<TModel extends BaseModel, TRepository extends 
 		return repository.findAll();
 	}
 
-	public TModel update(Long codigo, @Valid TModel updatedModel) {
+	public TModel update(Long codigo, TModel updatedModel) {
 		var savedModel = find(codigo);
 
 		BeanUtils.copyProperties(updatedModel, savedModel, "codigo");
-		return repository.save(savedModel);
+		return this.save(savedModel);
 	}
 	
 	public TModel alteraStatus(Long id, Boolean ativo){
