@@ -2,11 +2,13 @@ package com.dlls.pecacerta.api.services;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.dlls.pecacerta.api.exceptions.FuncionarioAlreadyExistsException;
 import com.dlls.pecacerta.api.model.Funcionario;
 import com.dlls.pecacerta.api.repositories.FuncionarioRepository;
 
+@Service
 @Component
 public class FuncionarioService extends BaseService<Funcionario, FuncionarioRepository> {
 

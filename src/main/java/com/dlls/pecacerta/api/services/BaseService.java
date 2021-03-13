@@ -6,12 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.dlls.pecacerta.api.model.BaseModel;
 import com.dlls.pecacerta.api.repositories.BaseRepository;
 
-@Service
 public abstract class BaseService<TModel extends BaseModel, TRepository extends BaseRepository<TModel>> {
 	@Autowired
 	protected TRepository repository;

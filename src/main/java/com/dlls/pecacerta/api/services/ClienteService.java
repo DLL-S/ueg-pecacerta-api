@@ -2,6 +2,7 @@ package com.dlls.pecacerta.api.services;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.dlls.pecacerta.api.exceptions.CNPJInvalidoException;
 import com.dlls.pecacerta.api.exceptions.CPFInvalidoException;
@@ -14,6 +15,7 @@ import br.com.safeguard.check.SafeguardCheck;
 import br.com.safeguard.interfaces.Check;
 import br.com.safeguard.types.ParametroTipo;
 
+@Service
 @Component
 public class ClienteService extends BaseService<Cliente, ClienteRepository> {
 	Check check = new SafeguardCheck();

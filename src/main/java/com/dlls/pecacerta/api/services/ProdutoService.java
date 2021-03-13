@@ -2,11 +2,13 @@ package com.dlls.pecacerta.api.services;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.dlls.pecacerta.api.exceptions.ProdutoAlreadyExistsException;
 import com.dlls.pecacerta.api.model.Produto;
 import com.dlls.pecacerta.api.repositories.ProdutoRepository;
 
+@Service
 @Component
 public class ProdutoService extends BaseService<Produto, ProdutoRepository>{
 	@Override
