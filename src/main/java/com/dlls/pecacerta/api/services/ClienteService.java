@@ -1,5 +1,7 @@
 package com.dlls.pecacerta.api.services;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -44,5 +46,9 @@ public class ClienteService extends BaseService<Cliente, ClienteRepository> {
 
 		BeanUtils.copyProperties(updatedCliente, savedCliente, "codigo");
 		return repository.save(savedCliente);
+	}
+
+	public List<Cliente> pesquise(String termo) {
+		return repository.pesquise(termo);
 	}
 }
