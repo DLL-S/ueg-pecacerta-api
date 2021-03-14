@@ -15,7 +15,7 @@ import com.dlls.pecacerta.api.services.ClienteService;
 @RequestMapping("/api/v1/clientes")
 public class ClienteController extends BaseController<Cliente, ClienteRepository, ClienteService> {
 	@GetMapping("/pesquisa")
-	public ResponseEntity<?> consultar(@RequestParam String Termo){
-		return ResponseEntity.ok(servico.pesquise(Termo));
+	public ResponseEntity<?> consultar(@RequestParam String termo){
+		return ResponseEntity.ok(servico.pesquise(termo));
 	}
 }
