@@ -21,6 +21,20 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 	@Autowired
 	ClienteService cliService;
 	
+	public OrcamentoService()
+	{
+		
+	}
+	
+	///Construtor para testes.
+	public OrcamentoService(ProdutoService prodService, ProdutosOrcamentoRepository prodOrcaRepo, ClienteService cliService, OrcamentoRepository repository)
+	{
+		this.prodService = prodService;
+		this.prodOrcaRepo = prodOrcaRepo;
+		this.cliService = cliService;
+		super.repository = repository;
+	}
+	
 	public Orcamento addProdutosOrcamento(Long id, Long idprod, Integer quantidade) {
 		var param = prodService.find(idprod);
 		var orcamento = find(id);
@@ -54,7 +68,7 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 		model.setProdutosOrcamento(null);
 		var savedOrca = super.save(model);
 		produtos.forEach((x)-> x.setCodigoOrcamento(savedOrca.getCodigo()));
-		prodOrcaRepo.saveAll(produtos);
+		produtos = prodOrcaRepo.saveAll(produtos);
 		savedOrca.setProdutosOrcamento(produtos);
 		return super.save(atualizaValorTotal(savedOrca));
 	}
