@@ -1,5 +1,7 @@
 package com.dlls.pecacerta.api.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -38,12 +40,20 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 	@Override
 	public Orcamento save(Orcamento model) {
 		var cliente = cliService.find(model.getCliente().getCodigo());
+
 		model.setCliente(cliente);
 		
 		var produtos = model.getProdutosOrcamento();
 		model.setProdutosOrcamento(null);
 		var savedOrca = super.save(model);
-		produtos.forEach((x)-> x.setCodigoOrcamento(savedOrca.getCodigo()));
+		var produtosDoOrcamento = prodOrcaRepo.findByCodigoOrcamento(savedOrca.getCodigo());
+		produtos.forEach((x)-> {
+			x.setCodigoOrcamento(savedOrca.getCodigo());
+			var prodOrca = produtosDoOrcamento.stream().filter(y-> y.getCodigoProduto() == x.getCodigoProduto()).findFirst();
+			if(prodOrca.isPresent())
+				x.setCodigo(prodOrca.get().getCodigo());
+		});
+		trataExclusaoProduto(produtosDoOrcamento, produtos);
 		produtos = prodOrcaRepo.saveAll(produtos);
 		savedOrca.setProdutosOrcamento(produtos);
 		return super.save(atualizaValorTotal(savedOrca));
@@ -58,5 +68,13 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 		
 		model.setValorTotal(valores);
 		return model;
+	}
+	
+	private void trataExclusaoProduto(List<ProdutosOrcamento> produtosOld, List<ProdutosOrcamento> produtosNew)
+	{
+		for (var produtosOrcamento : produtosOld) {
+			if(! produtosNew.stream().anyMatch(x-> x.getCodigo() == produtosOrcamento.getCodigo()))
+				prodOrcaRepo.deleteById(produtosOrcamento.getCodigo());
+		}
 	}
 }
