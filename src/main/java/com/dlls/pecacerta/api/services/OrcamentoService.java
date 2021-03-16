@@ -1,5 +1,7 @@
 package com.dlls.pecacerta.api.services;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,30 +23,6 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 	@Autowired
 	ClienteService cliService;
 	
-	public Orcamento addProdutosOrcamento(Long id, Long idprod, Integer quantidade) {
-		var param = prodService.find(idprod);
-		var orcamento = find(id);
-		var prodOrcamento = orcamento.getProdutosOrcamento();
-		ProdutosOrcamento orcamentoProduto;
-		if( prodOrcamento.stream().anyMatch(x -> x.getCodigoProduto() == param.getCodigo()))
-		{
-			orcamentoProduto = prodOrcamento.stream().filter(x -> x.getCodigoProduto() == param.getCodigo()).findFirst().get();
-			prodOrcamento.remove(orcamentoProduto);
-			var qtdOld = orcamentoProduto.getQuantidade();
-			var newQtd = qtdOld + quantidade > 0 ? qtdOld + quantidade : 0;
-			orcamentoProduto.setQuantidade(newQtd);
-		}
-		else
-		{
-			orcamentoProduto = new ProdutosOrcamento(param.getCodigo(), id, quantidade);
-		}
-		
-		prodOrcamento.add(orcamentoProduto);
-		orcamento.setProdutosOrcamento(prodOrcamento);
-		
-		return this.save(atualizaValorTotal(orcamento));
-	}
-
 	@Override
 	public Orcamento save(Orcamento model) {
 		var cliente = cliService.find(model.getCliente().getCodigo());
@@ -61,6 +39,7 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 			if(prodOrca.isPresent())
 				x.setCodigo(prodOrca.get().getCodigo());
 		});
+		trataExclusaoProduto(produtosDoOrcamento, produtos);
 		produtos = prodOrcaRepo.saveAll(produtos);
 		savedOrca.setProdutosOrcamento(produtos);
 		return super.save(atualizaValorTotal(savedOrca));
@@ -75,5 +54,13 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 		
 		model.setValorTotal(valores);
 		return model;
+	}
+	
+	private void trataExclusaoProduto(List<ProdutosOrcamento> produtosOld, List<ProdutosOrcamento> produtosNew)
+	{
+		for (var produtosOrcamento : produtosOld) {
+			if(! produtosNew.stream().anyMatch(x-> x.getCodigo() == produtosOrcamento.getCodigo()))
+				prodOrcaRepo.deleteById(produtosOrcamento.getCodigo());
+		}
 	}
 }
