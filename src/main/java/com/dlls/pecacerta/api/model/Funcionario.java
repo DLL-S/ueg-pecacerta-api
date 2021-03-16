@@ -23,7 +23,7 @@ import com.dlls.pecacerta.api.utils.EnumTipoFuncionario;
 
 @Entity
 @Table(name = "funcionarios")
-public class Funcionario {
+public class Funcionario extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
@@ -65,8 +65,9 @@ public class Funcionario {
 	private String telefone;
 
 	@Column(name = "func_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
+	@Override
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -135,6 +136,7 @@ public class Funcionario {
 		return ativo;
 	}
 
+	@Override
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}

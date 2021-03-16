@@ -21,7 +21,7 @@ import com.dlls.pecacerta.api.utils.EnumTipoCliente;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class Cliente extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
@@ -35,11 +35,11 @@ public class Cliente {
 	private EnumTipoCliente tipoCliente;
 
 	@Column(name = "cli_cpf_cnpj", nullable = false, unique = true)
-	@Size(min = 11, max = 11)
+	@Size(min = 11, max = 14)
 	private String cpfCnpj;
 
 	@Column(name = "cli_data_nasc", nullable = false)
-	private LocalDate dataDeNascimento;
+	private LocalDate dataNascFund;
 
 	@Embedded
 	@Valid
@@ -53,7 +53,7 @@ public class Cliente {
 	private Endereco endereco;
 
 	@Column(name = "cli_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	@Column(name = "cli_email", nullable = false)
 	@Size(max = 40)
@@ -64,6 +64,7 @@ public class Cliente {
 	@Size(min = 8, max = 12)
 	private String telefone;
 
+	@Override
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -96,12 +97,12 @@ public class Cliente {
 		this.cpfCnpj = cpf_cnpj;
 	}
 
-	public LocalDate getDataDeNascimento() {
-		return dataDeNascimento;
+	public LocalDate getDataNascFund() {
+		return dataNascFund;
 	}
 
-	public void setDataDeNascimento(LocalDate dataDeNascimento) {
-		this.dataDeNascimento = dataDeNascimento;
+	public void setDataNascFund(LocalDate dataDeNascimento) {
+		this.dataNascFund = dataDeNascimento;
 	}
 
 	public Endereco getEndereco() {
@@ -132,6 +133,7 @@ public class Cliente {
 		return ativo;
 	}
 
+	@Override
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Marcas")
-public class Marca {
+public class Marca extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "marca_codigo")
@@ -19,7 +19,7 @@ public class Marca {
 	private String nome;
 
 	@Column(name = "marca_ativo")
-	private Boolean ativo;
+	private Boolean ativo = true;
 
 	public Marca() {
 	}
@@ -30,6 +30,7 @@ public class Marca {
 		this.ativo = ativo;
 	}
 
+	@Override
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -50,6 +51,7 @@ public class Marca {
 		return ativo;
 	}
 
+	@Override
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
