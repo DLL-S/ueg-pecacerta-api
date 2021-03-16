@@ -48,13 +48,25 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 	@Override
 	public Orcamento save(Orcamento model) {
 		var cliente = cliService.find(model.getCliente().getCodigo());
+
 		model.setCliente(cliente);
 		
 		var produtos = model.getProdutosOrcamento();
 		model.setProdutosOrcamento(null);
 		var savedOrca = super.save(model);
+<<<<<<< Updated upstream
 		produtos.forEach((x)-> x.setCodigoOrcamento(savedOrca.getCodigo()));
 		prodOrcaRepo.saveAll(produtos);
+=======
+		var produtosDoOrcamento = prodOrcaRepo.findAll().stream().filter(y->y.getCodigoOrcamento() == savedOrca.getCodigo());
+		produtos.forEach((x)-> {
+			x.setCodigoOrcamento(savedOrca.getCodigo());
+			var prodOrca = produtosDoOrcamento.filter(y-> y.getCodigoProduto() == x.getCodigoProduto()).findFirst();
+			if(prodOrca.isPresent())
+				x.setCodigo(prodOrca.get().getCodigo());
+		});
+		produtos = prodOrcaRepo.saveAll(produtos);
+>>>>>>> Stashed changes
 		savedOrca.setProdutosOrcamento(produtos);
 		return super.save(atualizaValorTotal(savedOrca));
 	}
