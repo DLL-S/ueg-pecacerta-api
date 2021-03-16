@@ -54,10 +54,10 @@ public class OrcamentoService extends BaseService<Orcamento, OrcamentoRepository
 		var produtos = model.getProdutosOrcamento();
 		model.setProdutosOrcamento(null);
 		var savedOrca = super.save(model);
-		var produtosDoOrcamento = prodOrcaRepo.findAll().stream().filter(y->y.getCodigoOrcamento() == savedOrca.getCodigo());
+		var produtosDoOrcamento = prodOrcaRepo.findByCodigoOrcamento(savedOrca.getCodigo());
 		produtos.forEach((x)-> {
 			x.setCodigoOrcamento(savedOrca.getCodigo());
-			var prodOrca = produtosDoOrcamento.filter(y-> y.getCodigoProduto() == x.getCodigoProduto()).findFirst();
+			var prodOrca = produtosDoOrcamento.stream().filter(y-> y.getCodigoProduto() == x.getCodigoProduto()).findFirst();
 			if(prodOrca.isPresent())
 				x.setCodigo(prodOrca.get().getCodigo());
 		});
