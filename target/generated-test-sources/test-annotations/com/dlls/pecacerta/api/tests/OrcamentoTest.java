@@ -128,19 +128,6 @@ public class OrcamentoTest{
 		assertTrue(savedOrca.getValorTotal() != null);
 	}
 	
-	@Test
-	public void testIncluirProduto() {
-		var savedOrca = servOrca.addProdutosOrcamento((long)1, (long)1, 5);
-		when(cliService
-		        .find((long)1))
-		        .thenReturn(cliente);
-		when(prodService
-		        .find((long)1))
-		        .thenReturn(produto);
-
-		assertTrue(savedOrca.getValorTotal() == produto.getPreco()*5);		
-	}
-	
 	private Orcamento getOrcamentoNotSaved()
 	{
 		var orcamento = new Orcamento();

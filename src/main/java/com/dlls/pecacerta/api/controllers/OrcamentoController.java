@@ -17,10 +17,4 @@ import com.dlls.pecacerta.api.utils.CodigoQuantidade;
 @RestController
 @RequestMapping("/api/v1/orcamentos")
 public class OrcamentoController extends BaseController<Orcamento, OrcamentoRepository, OrcamentoService> {
-	@PutMapping("/{id}/adicionarProduto")
-	public  ResponseEntity<?> incluirProduto(@PathVariable(value = "id") Long id,
-			@Validated @RequestBody CodigoQuantidade codigoQuantidade)
-	{
-		return ResponseEntity.ok(servico.addProdutosOrcamento(id, codigoQuantidade.codigo, codigoQuantidade.quantidade));
-	}
 }
