@@ -1,44 +1,34 @@
 package com.dlls.pecacerta.api.services;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.dlls.pecacerta.api.exceptions.FuncionarioAlreadyExistsException;
-import com.dlls.pecacerta.api.exceptions.FuncionarioNoneExistentException;
 import com.dlls.pecacerta.api.model.Funcionario;
 import com.dlls.pecacerta.api.repositories.FuncionarioRepository;
 
-@Service
-public class FuncionarioService {
-	@Autowired
-	private FuncionarioRepository funcionarioRepository;
+@Component
+public class FuncionarioService extends BaseService<Funcionario, FuncionarioRepository> {
 
-	public Funcionario findFuncionario(Long codigo) {
-		var savedPerson = funcionarioRepository.findById(codigo)
-				.orElseThrow(() -> new FuncionarioNoneExistentException());
-		return savedPerson;
-	}
-
-	public Funcionario save(@Valid Funcionario funcionario) {
-		if (!funcionarioRepository.findByCpf(funcionario.getCpf()).isEmpty())
+	@Override
+	public Funcionario save(Funcionario funcionario) {
+		if (!repository.findByCpf(funcionario.getCpf()).isEmpty())
 			throw new FuncionarioAlreadyExistsException();
 
-		return funcionarioRepository.save(funcionario);
+		return repository.save(funcionario);
 	}
 
-	public Funcionario update(Long codigo, @Valid Funcionario updatedFuncionario) {
-		var savedFuncionario = findFuncionario(codigo);
+	@Override
+	public Funcionario update(Long codigo, Funcionario updatedFuncionario) {
+		var savedFuncionario = find(codigo);
 
-		var funcionarioComMesmoCpf = funcionarioRepository.findByCpf(updatedFuncionario.getCpf());
+		var funcionarioComMesmoCpf = repository.findByCpf(updatedFuncionario.getCpf());
 		if (!funcionarioComMesmoCpf.isEmpty())
 			for (var funcionario : funcionarioComMesmoCpf)
 				if (funcionario.getCodigo() != savedFuncionario.getCodigo())
 					throw new FuncionarioAlreadyExistsException();
 
 		BeanUtils.copyProperties(updatedFuncionario, savedFuncionario, "codigo");
-		return funcionarioRepository.save(savedFuncionario);
+		return repository.save(savedFuncionario);
 	}
 }

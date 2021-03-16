@@ -1,43 +1,54 @@
 package com.dlls.pecacerta.api.services;
 
-import javax.validation.Valid;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import com.dlls.pecacerta.api.exceptions.CNPJInvalidoException;
+import com.dlls.pecacerta.api.exceptions.CPFInvalidoException;
 import com.dlls.pecacerta.api.exceptions.ClienteAlreadyExistsException;
-import com.dlls.pecacerta.api.exceptions.ClienteNoneExistentException;
 import com.dlls.pecacerta.api.model.Cliente;
 import com.dlls.pecacerta.api.repositories.ClienteRepository;
+import com.dlls.pecacerta.api.utils.EnumTipoCliente;
 
-@Service
-public class ClienteService {
-	@Autowired
-	private ClienteRepository clienteRepository;
+import br.com.safeguard.check.SafeguardCheck;
+import br.com.safeguard.interfaces.Check;
+import br.com.safeguard.types.ParametroTipo;
 
-	public Cliente findCliente(Long codigo) {
-		var savedPerson = clienteRepository.findById(codigo).orElseThrow(() -> new ClienteNoneExistentException());
-		return savedPerson;
-	}
-
-	public Cliente save(@Valid Cliente cliente) {
-		if (!clienteRepository.findByCpfCnpj(cliente.getCpfCnpj()).isEmpty())
+@Component
+public class ClienteService extends BaseService<Cliente, ClienteRepository> {
+	Check check = new SafeguardCheck();
+	@Override
+	public Cliente save(Cliente cliente) {
+		if (!repository.findByCpfCnpj(cliente.getCpfCnpj()).isEmpty())
 			throw new ClienteAlreadyExistsException();
 
-		return clienteRepository.save(cliente);
+		if (check
+				.elementOf(cliente.getCpfCnpj(),ParametroTipo.NUMERO)
+				.elementOf(cliente.getCpfCnpj(), cliente.getTipoCliente() == EnumTipoCliente.PESSOA_FISICA ? ParametroTipo.CPF : ParametroTipo.CNPJ)
+				.validate()
+				.hasError())
+			throw cliente.getTipoCliente() == EnumTipoCliente.PESSOA_FISICA ? new CPFInvalidoException(): new CNPJInvalidoException();
+		
+		return repository.save(cliente);
 	}
+	
+	@Override
+	public Cliente update(Long codigo, Cliente updatedCliente) {
+		var savedCliente = find(codigo);
 
-	public Cliente update(Long codigo, @Valid Cliente updatedCliente) {
-		var savedCliente = findCliente(codigo);
-
-		var clienteComMesmoCpf = clienteRepository.findByCpfCnpj(updatedCliente.getCpfCnpj());
+		var clienteComMesmoCpf = repository.findByCpfCnpj(updatedCliente.getCpfCnpj());
 		if (!clienteComMesmoCpf.isEmpty())
 			for (var cliente : clienteComMesmoCpf)
 				if (cliente.getCodigo() != savedCliente.getCodigo())
 					throw new ClienteAlreadyExistsException();
 
 		BeanUtils.copyProperties(updatedCliente, savedCliente, "codigo");
-		return clienteRepository.save(savedCliente);
+		return repository.save(savedCliente);
+	}
+
+	public List<Cliente> pesquise(String termo) {
+		return repository.pesquise(termo);
 	}
 }

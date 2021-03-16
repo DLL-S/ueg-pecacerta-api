@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.8.RELEASE</version>
+	    <artifactId>spring-boot-starter-parent</artifactId>
+	    <version>2.3.9.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dlls.pecacerta-api</groupId>
@@ -74,6 +74,7 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
+		<!-- SWAGGER docs -->
 		<dependency>
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-swagger2</artifactId>
@@ -84,6 +85,31 @@
 		    <artifactId>springfox-swagger-ui</artifactId>
 		    <version>2.9.2</version>
 		</dependency>
+	    <dependency>
+	        <groupId>io.springfox</groupId>
+	        <artifactId>springfox-bean-validators</artifactId>
+	        <version>2.9.2</version>
+	    </dependency>
+	    <!-- validação -->
+		<dependency>
+			<groupId>com.github.gilmardeveloper</groupId>
+			<artifactId>safeguard</artifactId>
+			<version>0.0.1-RELEASE</version>
+		</dependency>
+		<!-- OAuth props 
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.thymeleaf.extras</groupId>
+	        <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+	    </dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		-->
 	</dependencies>
 
 	<build>
