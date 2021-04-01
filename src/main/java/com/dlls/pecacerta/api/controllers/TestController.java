@@ -21,6 +21,6 @@ public class TestController{
 	@PostMapping("/login")
 	public ResponseEntity<?> Login()
 	{
-		return ResponseEntity.ok("\"1C39DE5E-F358-45FC-A928-9BD4FA80FADB\"");
+		return ResponseEntity.ok("{\"token\": \"1C39DE5E-F358-45FC-A928-9BD4FA80FADB\"}");
 	}
 }
