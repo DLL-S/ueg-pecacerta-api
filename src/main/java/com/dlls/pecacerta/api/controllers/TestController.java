@@ -183,7 +183,7 @@ public class TestController{
 				+ "            },\r\n"
 				+ "            \"dataEmissao\": \"\",\r\n"
 				+ "            \"estado\": {\r\n"
-				+ "                \"codigo\": null,\"nome\": null},\"numero\": \"151515105\",\"secao\": \"6021\",\"zona\": \"100\"},\"vinculoEmpregaticio\": {\"codigo\": 0,\"descricao\": null}, \"informacoesAdicionais\":[{\"codigo\": 1,\"valor\":\"063802f1-5744-4efc-90d2-01ae5491bd88\"}]}]");
+				+ "                \"codigo\": null,\"nome\": null},\"numero\": \"151515105\",\"secao\": \"6021\",\"zona\": \"100\"},\"vinculoEmpregaticio\": {\"codigo\": 0,\"descricao\": null}, \"informacoesAdicionais\":[{\"codigo\": 1,\"valor\":\"G\"}]}]");
 	}
 	
 	@PostMapping("/login")
