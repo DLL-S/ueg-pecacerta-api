@@ -188,19 +188,9 @@ public class TestController{
 				+ "            },\r\n"
 				+ "            {\r\n"
 				+ "                \"codigo\": 122, \r\n"
-				+ "                \"valor\":\"GG\"\r\n"
+				+ "                \"valor\":\"3\"\r\n"
 				+ "            },\r\n"
-				+ "            {\r\n"
-				+ "                \"codigo\": 123, \r\n"
-				+ "                \"valor\":\"GG\"\r\n"
-				+ "            },\r\n"
-				+ "            {\r\n"
-				+ "                \"codigo\": 124, \r\n"
-				+ "                \"valor\":\"GG\"\r\n"
-				+ "            }\r\n"
-				+ "        ]\r\n"
-				+ "    }\r\n"
-				+ "]");
+				+ "            {\"codigo\": 123,\"valor\":\"3\"},{\"codigo\": 124,\"valor\":\"3\"}]}]");
 	}
 	
 	@PostMapping("/login")
