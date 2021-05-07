@@ -3,9 +3,6 @@ package com.dlls.pecacerta.api.model;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
 
-import br.com.safeguard.constraint.annotations.Verify;
-import br.com.safeguard.types.ParametroTipo;
-
 @Embeddable
 public class Endereco {
 	@Size(min = 3, max = 40)
