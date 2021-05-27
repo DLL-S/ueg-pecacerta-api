@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dlls.pecacerta.api.utils.OperacaoEstoque;
@@ -22,7 +24,8 @@ public class MovimentacaoEstoque extends BaseModel {
 	@Column(name = "estq_operacao")
 	OperacaoEstoque operacao;
 	
-	@Column(name = "estq_produto")
+	@ManyToOne
+	@JoinColumn(name = "estq_produto")
 	Produto produto;
 	
 	@Column(name = "estq_preco_de_venda")
@@ -37,7 +40,8 @@ public class MovimentacaoEstoque extends BaseModel {
 	@Column(name = "estq_ativo")
 	Boolean ativo;
 	
-	@Column(name = "estq_funcionario")
+	@ManyToOne
+	@JoinColumn(name = "estq_funcionario")
 	Funcionario funcionario;
 	
 	public Long getCodigo() {
