@@ -2,16 +2,43 @@ package com.dlls.pecacerta.api.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.dlls.pecacerta.api.utils.OperacaoEstoque;
 
+@Entity
+@Table(name = "controle_estoque")
 public class MovimentacaoEstoque extends BaseModel {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "estq_codigo")
 	Long codigo;
+	
+	@Column(name = "estq_operacao")
 	OperacaoEstoque operacao;
+	
+	@Column(name = "estq_produto")
 	Produto produto;
+	
+	@Column(name = "estq_preco_de_venda")
 	Double precoDeVenda;
+	
+	@Column(name = "estq_quantidade")
 	Integer quantidade;
+	
+	@Column(name = "estq_data")
 	Date data;
+	
+	@Column(name = "estq_ativo")
 	Boolean ativo;
+	
+	@Column(name = "estq_funcionario")
+	Funcionario funcionario;
 	
 	public Long getCodigo() {
 		return codigo;
