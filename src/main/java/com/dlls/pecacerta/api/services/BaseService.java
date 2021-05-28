@@ -18,7 +18,7 @@ public abstract class BaseService<TModel extends BaseModel, TRepository extends 
 
 	public TModel find(Long codigo) {
 		TModel modelError = null;
-		var saved = repository.findById(codigo).orElseThrow(() -> com.dlls.pecacerta.api.utils.Error.ObjectNoneExistent(modelError));
+		var saved = repository.findById(codigo).orElseThrow(() -> com.dlls.pecacerta.api.errors.Error.ObjectNoneExistent(modelError));
 		return saved;
 	}
 	

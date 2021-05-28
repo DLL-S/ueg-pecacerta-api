@@ -1,4 +1,4 @@
-package com.dlls.pecacerta.api.utils;
+package com.dlls.pecacerta.api.errors;
 
 import com.dlls.pecacerta.api.model.*;
 import com.dlls.pecacerta.api.exceptions.*;
