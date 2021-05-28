@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.dlls.pecacerta.api.utils.FormaDePagamento;
+import com.dlls.pecacerta.api.enumerators.EnumFormaDePagamento;
 
 @Entity
 @Table(name = "vendas")
@@ -38,7 +38,7 @@ public class Venda extends BaseModel {
 	
 	@Column(name = "vnd_forma_de_pagamento")
 	@Enumerated(EnumType.STRING)
-	private FormaDePagamento formaDePagamento;
+	private EnumFormaDePagamento formaDePagamento;
 
 	@OneToOne
 	@JoinColumn(name = "vnd_nota_fiscal")
@@ -83,11 +83,11 @@ public class Venda extends BaseModel {
 		this.valorTotal = valorTotal;
 	}
 
-	public FormaDePagamento getFormaDePagamento() {
+	public EnumFormaDePagamento getFormaDePagamento() {
 		return formaDePagamento;
 	}
 
-	public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
+	public void setFormaDePagamento(EnumFormaDePagamento formaDePagamento) {
 		this.formaDePagamento = formaDePagamento;
 	}
 

@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import com.dlls.pecacerta.api.enumerators.EnumTipoCliente;
 import com.dlls.pecacerta.api.exceptions.CNPJInvalidoException;
 import com.dlls.pecacerta.api.exceptions.CPFInvalidoException;
 import com.dlls.pecacerta.api.exceptions.ClienteAlreadyExistsException;
 import com.dlls.pecacerta.api.model.Cliente;
 import com.dlls.pecacerta.api.repositories.ClienteRepository;
-import com.dlls.pecacerta.api.utils.EnumTipoCliente;
 
 import br.com.safeguard.check.SafeguardCheck;
 import br.com.safeguard.interfaces.Check;

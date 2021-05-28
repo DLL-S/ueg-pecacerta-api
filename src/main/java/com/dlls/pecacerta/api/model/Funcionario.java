@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.dlls.pecacerta.api.utils.EnumTipoFuncionario;
+import com.dlls.pecacerta.api.enumerators.EnumTipoFuncionario;
 
 @Entity
 @Table(name = "funcionarios")
