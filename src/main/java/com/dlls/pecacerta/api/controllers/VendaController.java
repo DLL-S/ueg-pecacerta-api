@@ -17,9 +17,9 @@ public class VendaController extends BaseController<Venda, VendaRepository, Vend
 		return servico.AutorizacaoDoGestor(tokenGestor);
 	}
 
-	@PutMapping("/{id}/nota_fiscal")
-	public Venda GerarNotaFiscal(Venda venda)
+	@PutMapping("/finalizar")
+	public Venda RealizarVenda(Venda venda)
 	{
-		return servico.GerarNotaFiscal(venda);
+		return servico.RealizarVenda(venda, (long)0);
 	}
 }

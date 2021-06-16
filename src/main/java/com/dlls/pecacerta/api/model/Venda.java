@@ -1,6 +1,6 @@
 package com.dlls.pecacerta.api.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -71,8 +71,8 @@ public class Venda extends BaseModel {
 		return data;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setData(Date date) {
+		this.data = date;
 	}
 
 	public Double getValorTotal() {

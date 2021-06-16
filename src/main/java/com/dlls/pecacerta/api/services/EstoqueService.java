@@ -14,14 +14,38 @@ public class EstoqueService extends BaseService<MovimentacaoEstoque, Movimentaca
 	ProdutoService servicoProduto;
 	@Autowired
 	FuncionarioService servicoFuncionario;
-	
-	public MovimentacaoEstoque registrarTroca(Long codigoProduto, int quantidade, Long codigoAtendente) {
+
+	public MovimentacaoEstoque registrarTroca(Long codigoProduto, int quantidade, Long codigoAtendente) 
+	{
 		var produto = servicoProduto.find(codigoProduto);
 		var atendente = servicoFuncionario.find(codigoAtendente);
 		var movimentacao = new MovimentacaoEstoque(produto, quantidade, EnumOperacaoEstoque.Troca, atendente);
 		produto.setQtdeEstoque(produto.getQtdeEstoque()-quantidade);
 		servicoProduto.update(codigoProduto, produto);
 		return this.save(movimentacao);
+	}
+	
+	public MovimentacaoEstoque registrarVenda(Long codigoProduto, int quantidade, Long codigoAtendente)
+	{
+		var produto = servicoProduto.find(codigoProduto);
+		var atendente = servicoFuncionario.find(codigoAtendente);
+		var movimentacao = new MovimentacaoEstoque(produto, quantidade, EnumOperacaoEstoque.Saida, atendente);
+		produto.setQtdeEstoque(produto.getQtdeEstoque()-quantidade);
+		servicoProduto.update(codigoProduto, produto);
+		return this.save(movimentacao);
+	}
+	
+	public MovimentacaoEstoque registrarOperacaoEntradaPerda(Long codigoProduto, int diferenca, Long codigoAtendente)
+	{
+		if(diferenca != 0)
+		{
+			var produto = servicoProduto.find(codigoProduto);
+			var atendente = servicoFuncionario.find(codigoAtendente);
+			var movimentacao = new MovimentacaoEstoque(produto, diferenca, diferenca > 0 ? EnumOperacaoEstoque.Entrada : EnumOperacaoEstoque.Perda, atendente);
+			return this.save(movimentacao);
+		}
+		
+		return null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.dlls.pecacerta.api.services;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dlls.pecacerta.api.exceptions.ProdutoAlreadyExistsException;
@@ -9,12 +10,17 @@ import com.dlls.pecacerta.api.repositories.ProdutoRepository;
 
 @Component
 public class ProdutoService extends BaseService<Produto, ProdutoRepository>{
+	@Autowired
+	EstoqueService estoqueservice;
+	
 	@Override
 	public Produto save(Produto produto) {
 		if (!repository.findByCodigoDeBarras(produto.getCodigoDeBarras()).isEmpty())
 			throw new ProdutoAlreadyExistsException();
 		
-		return this.repository.save(produto);
+		var callback = this.repository.save(produto);
+		estoqueservice.registrarOperacaoEntradaPerda(callback.getCodigo(), callback.getQtdeEstoque(), (long)0);
+		return callback;
 	}
 
 	@Override
@@ -28,7 +34,9 @@ public class ProdutoService extends BaseService<Produto, ProdutoRepository>{
 					throw new ProdutoAlreadyExistsException();
 
 		BeanUtils.copyProperties(produto, savedProduto, "codigo");
-		return repository.save(savedProduto);
+		var callback = this.repository.save(produto);
+		estoqueservice.registrarOperacaoEntradaPerda(callback.getCodigo(), callback.getQtdeEstoque()-savedProduto.getQtdeEstoque(), (long)0);
+		return callback;
 	}
 	public double consulteValor(Long id)
 	{
