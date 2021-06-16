@@ -41,7 +41,7 @@ public class EstoqueService extends BaseService<MovimentacaoEstoque, Movimentaca
 		{
 			var produto = servicoProduto.find(codigoProduto);
 			var atendente = servicoFuncionario.find(codigoAtendente);
-			var movimentacao = new MovimentacaoEstoque(produto, diferenca, diferenca > 0 ? EnumOperacaoEstoque.Entrada : EnumOperacaoEstoque.Perda, atendente);
+			var movimentacao = new MovimentacaoEstoque(produto, diferenca > 0 ? diferenca : diferenca*(-1), diferenca > 0 ? EnumOperacaoEstoque.Entrada : EnumOperacaoEstoque.Perda, atendente);
 			return this.save(movimentacao);
 		}
 		
