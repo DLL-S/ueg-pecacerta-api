@@ -35,7 +35,17 @@ public class EstoqueService extends BaseService<MovimentacaoEstoque, Movimentaca
 		return this.save(movimentacao);
 	}
 	
-	public MovimentacaoEstoque registrarOperacaoEntradaPerda(Long codigoProduto, int diferenca, Long codigoAtendente)
+	public MovimentacaoEstoque registrarInclusao(Long codigoProduto, int quantidade, Long codigoAtendente)
+	{
+		var produto = servicoProduto.find(codigoProduto);
+		var atendente = servicoFuncionario.find(codigoAtendente);
+		var movimentacao = new MovimentacaoEstoque(produto, quantidade, EnumOperacaoEstoque.Saida, atendente);
+		produto.setQtdeEstoque(produto.getQtdeEstoque()+quantidade);
+		servicoProduto.update(codigoProduto, produto);
+		return this.save(movimentacao);
+	}
+	
+	public MovimentacaoEstoque registrarOperacaoManterProduto(Long codigoProduto, int diferenca, Long codigoAtendente)
 	{
 		if(diferenca != 0)
 		{
