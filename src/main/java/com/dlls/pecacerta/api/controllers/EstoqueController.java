@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dlls.pecacerta.api.enumerators.EnumOperacaoEstoque;
 import com.dlls.pecacerta.api.services.EstoqueService;
 
 
@@ -23,13 +24,13 @@ public class EstoqueController {
 	@PostMapping("/trocar")
 	public ResponseEntity<?> registrarTroca(Long codigoProduto, int quantidade)//, Long operadorLogado)
 	{
-		return ResponseEntity.ok(servico.registrarTroca(codigoProduto, quantidade, (long)0));
+		return ResponseEntity.ok(servico.registrarMovimentacao(codigoProduto, quantidade, EnumOperacaoEstoque.Troca, (long)0));
 	}
 
 	@PostMapping("/incluir")
 	public ResponseEntity<?> registrarInclusao(Long codigoProduto, int quantidade)//, Long operadorLogado)
 	{
-		return ResponseEntity.ok(servico.registrarInclusao(codigoProduto, quantidade, (long)0));
+		return ResponseEntity.ok(servico.registrarMovimentacao(codigoProduto, quantidade, EnumOperacaoEstoque.Entrada, (long)0));
 	}
 	
 	@GetMapping("/{id}")

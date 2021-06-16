@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dlls.pecacerta.api.enumerators.EnumFormaDePagamento;
+import com.dlls.pecacerta.api.enumerators.EnumOperacaoEstoque;
 import com.dlls.pecacerta.api.model.Orcamento;
 import com.dlls.pecacerta.api.model.ProdutosVenda;
 import com.dlls.pecacerta.api.model.Venda;
@@ -72,9 +73,10 @@ public class VendaService extends BaseService<Venda, VendaRepository> {
 		savedVenda.setProdutosVenda(produtosVenda);
 		
 		for (ProdutosVenda produtoVenda : savedVenda.getProdutosVenda()) {
-			servicoDeEstoque.registrarVenda(
+			servicoDeEstoque.registrarMovimentacao(
 					produtoVenda.getCodigoProduto(),
 					produtoVenda.getQuantidade(),
+					EnumOperacaoEstoque.Saida,
 					codigoAtendente
 				);
 		}
