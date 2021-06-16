@@ -19,7 +19,7 @@ public class ProdutoService extends BaseService<Produto, ProdutoRepository>{
 			throw new ProdutoAlreadyExistsException();
 		
 		var callback = this.repository.save(produto);
-		estoqueservice.registrarOperacaoManterProduto(callback.getCodigo(), callback.getQtdeEstoque(), (long)0);
+		estoqueservice.registrarOperacaoManterProduto(callback.getCodigo(), callback.getQtdeEstoque(), (long)1);
 		return callback;
 	}
 
@@ -35,7 +35,7 @@ public class ProdutoService extends BaseService<Produto, ProdutoRepository>{
 
 		BeanUtils.copyProperties(produto, savedProduto, "codigo");
 		var callback = this.repository.save(produto);
-		estoqueservice.registrarOperacaoManterProduto(callback.getCodigo(), callback.getQtdeEstoque()-savedProduto.getQtdeEstoque(), (long)0);
+		estoqueservice.registrarOperacaoManterProduto(callback.getCodigo(), callback.getQtdeEstoque()-savedProduto.getQtdeEstoque(), (long)1);
 		return callback;
 	}
 	public double consulteValor(Long id)

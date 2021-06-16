@@ -24,7 +24,7 @@ public class EstoqueController {
 	@PostMapping("/trocar")
 	public ResponseEntity<?> registrarTroca(Long codigoProduto, int quantidade)//, Long operadorLogado)
 	{
-		return ResponseEntity.ok(servico.registrarMovimentacao(codigoProduto, quantidade, EnumOperacaoEstoque.Troca, (long)0));
+		return ResponseEntity.ok(servico.registrarMovimentacao(codigoProduto, quantidade, EnumOperacaoEstoque.Troca, (long)1));
 	}
 
 	@PostMapping("/incluir")
