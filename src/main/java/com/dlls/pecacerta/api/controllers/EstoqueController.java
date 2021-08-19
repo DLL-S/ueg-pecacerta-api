@@ -20,17 +20,11 @@ import com.dlls.pecacerta.api.services.EstoqueService;
 public class EstoqueController {
 	@Autowired
 	EstoqueService servico;
-
-	@PostMapping("/trocar")
-	public ResponseEntity<?> registrarTroca(Long codigoProduto, int quantidade)//, Long operadorLogado)
+	
+	@PostMapping("/movimentar")
+	public ResponseEntity<?> movimentar(Long codigoProduto, int quantidade, EnumOperacaoEstoque operacao)//, Long operadorLogado)
 	{
-		return ResponseEntity.ok(servico.registrarMovimentacao(codigoProduto, quantidade, EnumOperacaoEstoque.Troca, (long)1));
-	}
-
-	@PostMapping("/incluir")
-	public ResponseEntity<?> registrarInclusao(Long codigoProduto, int quantidade)//, Long operadorLogado)
-	{
-		return ResponseEntity.ok(servico.registrarMovimentacao(codigoProduto, quantidade, EnumOperacaoEstoque.Entrada, (long)0));
+		return ResponseEntity.ok(servico.registrarMovimentacao(codigoProduto, quantidade, operacao, (long)0));
 	}
 	
 	@GetMapping("/{id}")
