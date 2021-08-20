@@ -46,11 +46,12 @@ public class MovimentacaoEstoque extends BaseModel {
 	
 	public MovimentacaoEstoque() {}
 	
-	public MovimentacaoEstoque(Produto produto, int quantidade, EnumOperacaoEstoque operacao, Funcionario atendente) {
+	public MovimentacaoEstoque(Produto produto, int quantidade, EnumOperacaoEstoque operacao)//, Funcionario atendente)
+	{
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.operacao = operacao;
-		this.atendente = atendente;
+		//this.atendente = atendente;
 		this.data = new Date(System.currentTimeMillis());
 		this.precoDeVenda = produto.getPreco();
 		this.ativo = true;

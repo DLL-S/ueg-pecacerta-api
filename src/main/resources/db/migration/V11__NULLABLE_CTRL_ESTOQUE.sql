@@ -1,0 +1,1 @@
+ALTER TABLE controle_estoque alter column estq_funcionario drop not null;

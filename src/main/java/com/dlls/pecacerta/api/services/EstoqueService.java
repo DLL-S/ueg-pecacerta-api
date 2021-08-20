@@ -18,8 +18,8 @@ public class EstoqueService extends BaseService<MovimentacaoEstoque, Movimentaca
 	public MovimentacaoEstoque registrarMovimentacao(Long codigoProduto, int quantidade, EnumOperacaoEstoque tipoMovimentacao, Long codigoAtendente)
 	{
 		var produto = servicoProduto.find(codigoProduto);
-		var atendente = servicoFuncionario.find(codigoAtendente);
-		var movimentacao = new MovimentacaoEstoque(produto, quantidade, tipoMovimentacao, atendente);
+		//var atendente = servicoFuncionario.find(codigoAtendente);
+		var movimentacao = new MovimentacaoEstoque(produto, quantidade, tipoMovimentacao);//, atendente);
 		produto.setQtdeEstoque(produto.getQtdeEstoque()+(tipoMovimentacao != EnumOperacaoEstoque.Entrada ? quantidade*(-1) : quantidade));
 		servicoProduto.update(codigoProduto, produto);
 		return this.save(movimentacao);
@@ -30,8 +30,8 @@ public class EstoqueService extends BaseService<MovimentacaoEstoque, Movimentaca
 		if(diferenca != 0)
 		{
 			var produto = servicoProduto.find(codigoProduto);
-			var atendente = servicoFuncionario.find(codigoAtendente);
-			var movimentacao = new MovimentacaoEstoque(produto, diferenca > 0 ? diferenca : diferenca*(-1), diferenca > 0 ? EnumOperacaoEstoque.Entrada : EnumOperacaoEstoque.Perda, atendente);
+			//var atendente = servicoFuncionario.find(codigoAtendente);
+			var movimentacao = new MovimentacaoEstoque(produto, diferenca > 0 ? diferenca : diferenca*(-1), diferenca > 0 ? EnumOperacaoEstoque.Entrada : EnumOperacaoEstoque.Perda);//, atendente);
 			return this.save(movimentacao);
 		}
 		
