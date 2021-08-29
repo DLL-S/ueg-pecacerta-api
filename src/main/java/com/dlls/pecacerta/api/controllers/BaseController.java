@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public abstract class BaseController<TModel extends BaseModel, TRepository exten
 	private ApplicationEventPublisher publisher;
 
 	@PostMapping("")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> incluir(@Validated @RequestBody TModel model,
 			HttpServletResponse response) {
 		var savedModel = servico.save(model);
@@ -38,6 +40,7 @@ public abstract class BaseController<TModel extends BaseModel, TRepository exten
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> alterar(@PathVariable(value = "id") Long id,
 			@Validated @RequestBody TModel param)
 	{
@@ -45,23 +48,27 @@ public abstract class BaseController<TModel extends BaseModel, TRepository exten
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> consultar(@PathVariable(value = "id") Long id){
 		return ResponseEntity.ok(servico.find(id));
 	}
 
 	@GetMapping
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> listar() {
 		var models = servico.findAll();
 		return models.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(models);
 	}
 	
 	@GetMapping("/ativos")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> listarModelsAtivos() {
 		var models = servico.findAtivo();
 		return models.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(models);
 	}
 
 	@PutMapping("/{id}/ativo")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> ativarModel(@PathVariable(value = "id") Long id,
 			@Validated @RequestBody Boolean booleano) {
 
