@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 public class ProdutosVenda {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "vnd_codigo")
 	private Long codigo;
 	
 	@NotNull
