@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.dlls.pecacerta.api.model.NotaFiscal;
 
-public interface NotaFiscalRepository extends BaseRepository<NotaFiscal>, JpaRepository<NotaFiscal, Long> {
+public interface NotaFiscalRepository extends JpaRepository<NotaFiscal, Long> {
 	Optional<NotaFiscal> findById(Long id);
-	List<NotaFiscal> findByAtivo(Boolean ativo);
 	@SuppressWarnings("unchecked")
 	NotaFiscal save(NotaFiscal model);
 }

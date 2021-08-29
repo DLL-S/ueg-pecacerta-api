@@ -3,6 +3,7 @@ package com.dlls.pecacerta.api.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -47,8 +48,8 @@ public class Venda extends BaseModel {
 	@Column(name = "vnd_observacoes")
 	private String observacoes;
 
-	@OneToMany
-	@JoinColumn(name = "vnd_produtos_venda")
+
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="codigoVenda")
 	private List<ProdutosVenda> produtosVenda;
 
 	@Column(name = "vnd_ativo")

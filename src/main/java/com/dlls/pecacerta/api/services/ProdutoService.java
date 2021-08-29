@@ -33,9 +33,10 @@ public class ProdutoService extends BaseService<Produto, ProdutoRepository>{
 				if (produtoBr.getCodigo() != savedProduto.getCodigo())
 					throw new ProdutoAlreadyExistsException();
 
-		BeanUtils.copyProperties(produto, savedProduto, "codigo");
+		produto.setCodigo(codigo);
+		
 		var callback = this.repository.save(produto);
-		estoqueservice.registrarOperacaoManterProduto(callback.getCodigo(), callback.getQtdeEstoque()-savedProduto.getQtdeEstoque(), (long)1);
+		
 		return callback;
 	}
 	public double consulteValor(Long id)
