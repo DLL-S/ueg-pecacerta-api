@@ -27,14 +27,14 @@ public class NotaFiscal {
 
 	public NotaFiscal(Long codigoVenda) {
 		var data = new Date();
-		numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + codigo+"-0";
+		numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + new Random().nextInt()+"-0";
 	
 		this.codigoVenda = codigoVenda;
 	}
 
 	public NotaFiscal(){
 		var data = new Date();
-		numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + codigo+"-0";
+		numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + new Random().nextInt()+"-0";
 	}
 	
 	public Long getCodigo() {
@@ -46,20 +46,10 @@ public class NotaFiscal {
 	}
 
 	public String getNumero() {
-		if(numero == null)
-		{
-			var data = new Date();
-			numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + codigo+"-0";
-		}
 		return numero;
 	}
 
 	public void setNumero(String numero) {
-		if(numero == null)
-		{
-			var data = new Date();
-			numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + codigo+"-0";
-		}
 		this.numero = numero;
 	}
 

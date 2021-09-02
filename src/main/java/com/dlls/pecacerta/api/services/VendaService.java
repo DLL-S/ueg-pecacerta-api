@@ -56,15 +56,8 @@ public class VendaService extends BaseService<Venda, VendaRepository> {
 	
 	public Venda RealizarVenda(VendaParcial vendaParcial, Long codigoAtendente) {
 		var venda = ConvertaVendaParcialParaCompleta(vendaParcial);
-		if((venda.getFormaDePagamento() == EnumFormaDePagamento.APrazoBoletoBancario || 
-				venda.getFormaDePagamento() == EnumFormaDePagamento.APrazoCheque))
-			// && !EhGerente(codigoAtendente))
-		{
-			// Pedir autorização;
-		}
-		else {
+		
 			venda = FinalizeVenda(venda, venda.getProdutosVenda(), codigoAtendente);
-		}
 		
 		return venda;
 	}
