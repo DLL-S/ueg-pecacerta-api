@@ -28,7 +28,7 @@ public abstract class BaseController<TModel extends BaseModel, TRepository exten
 	protected TService servico;
 
 	@Autowired
-	private ApplicationEventPublisher publisher;
+	protected ApplicationEventPublisher publisher;
 
 	@PostMapping("")
 	@PreAuthorize("isAuthenticated()")
