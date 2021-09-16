@@ -1,8 +1,9 @@
 package com.dlls.pecacerta.api.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,9 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
-import com.dlls.pecacerta.api.utils.FormaDePagamento;
+import com.dlls.pecacerta.api.enumerators.EnumFormaDePagamento;
 
 @Entity
 @Table(name = "vendas")
@@ -39,7 +39,7 @@ public class Venda extends BaseModel {
 	
 	@Column(name = "vnd_forma_de_pagamento")
 	@Enumerated(EnumType.STRING)
-	private FormaDePagamento formaDePagamento;
+	private EnumFormaDePagamento formaDePagamento;
 
 	@OneToOne
 	@JoinColumn(name = "vnd_nota_fiscal")
@@ -48,8 +48,8 @@ public class Venda extends BaseModel {
 	@Column(name = "vnd_observacoes")
 	private String observacoes;
 
-	@OneToMany
-	@JoinColumn(name = "vnd_produtos_venda")
+
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="codigoVenda")
 	private List<ProdutosVenda> produtosVenda;
 
 	@Column(name = "vnd_ativo")
@@ -72,8 +72,8 @@ public class Venda extends BaseModel {
 		return data;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setData(Date date) {
+		this.data = date;
 	}
 
 	public Double getValorTotal() {
@@ -84,11 +84,11 @@ public class Venda extends BaseModel {
 		this.valorTotal = valorTotal;
 	}
 
-	public FormaDePagamento getFormaDePagamento() {
+	public EnumFormaDePagamento getFormaDePagamento() {
 		return formaDePagamento;
 	}
 
-	public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
+	public void setFormaDePagamento(EnumFormaDePagamento formaDePagamento) {
 		this.formaDePagamento = formaDePagamento;
 	}
 

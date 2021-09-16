@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
-import com.dlls.pecacerta.api.utils.EnumTipoCliente;
+import com.dlls.pecacerta.api.enumerators.EnumTipoCliente;
 
 @Entity
 @Table(name = "clientes")

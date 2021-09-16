@@ -1,6 +1,6 @@
-package com.dlls.pecacerta.api.utils;
+package com.dlls.pecacerta.api.enumerators;
 
-public enum FormaDePagamento {
+public enum EnumFormaDePagamento {
 	AVistaDinheiro,
 	AVistaCartãoDeCredito,
 	AVistaCartãoDeDebito,

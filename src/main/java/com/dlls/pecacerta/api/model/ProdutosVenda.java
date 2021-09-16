@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 public class ProdutosVenda {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "vnd_codigo")
 	private Long codigo;
 	
 	@NotNull
@@ -26,11 +27,14 @@ public class ProdutosVenda {
 	@NotNull
 	@Column(name = "vnd_quantidade_produto")
 	private Integer quantidade;
-	
+
 	public ProdutosVenda(Long codigoProduto, Long codigoVenda, int quantidade) {
 		this.codigoProduto = codigoProduto;
 		this.codigoVenda = codigoVenda;
 		this.quantidade = quantidade;
+	}
+	
+	public ProdutosVenda() {
 	}
 
 	public Long getCodigoProduto() {

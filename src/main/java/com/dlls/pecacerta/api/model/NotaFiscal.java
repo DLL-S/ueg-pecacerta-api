@@ -1,5 +1,8 @@
 package com.dlls.pecacerta.api.model;
 
+import java.util.Date;
+import java.util.Random;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,27 +13,30 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "notas_fiscais")
-public class NotaFiscal  extends BaseModel {
+public class NotaFiscal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "nf_codigo")
 	private Long codigo;
 
-	@NotNull
 	@Column(name = "nf_numero")
 	private String numero;
 
-	@NotNull
 	@Column(name = "nf_codigo_venda")
 	private Long codigoVenda;
 
-	@Column(name = "nf_ativo")
-	private Boolean ativo = true;
-
 	public NotaFiscal(Long codigoVenda) {
+		var data = new Date();
+		numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + new Random().nextInt()+"-0";
+	
 		this.codigoVenda = codigoVenda;
 	}
 
+	public NotaFiscal(){
+		var data = new Date();
+		numero = "52-"+ data.getYear() + data.getMonth()+"-17921427000125-65-001-"+new Random().nextInt()+"-9-" + new Random().nextInt()+"-0";
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -39,11 +45,11 @@ public class NotaFiscal  extends BaseModel {
 		this.codigo = codigo;
 	}
 
-	public String getCodigoDeBarras() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setCodigoDeBarras(String numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
@@ -53,10 +59,5 @@ public class NotaFiscal  extends BaseModel {
 
 	public void setCodigoVenda(Long codigoVenda) {
 		this.codigoVenda = codigoVenda;
-	}
-
-	@Override
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
 	}
 }

@@ -19,7 +19,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.dlls.pecacerta.api.utils.EnumTipoFuncionario;
+import com.dlls.pecacerta.api.enumerators.EnumTipoFuncionario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "funcionarios")
@@ -66,6 +67,18 @@ public class Funcionario extends BaseModel {
 
 	@Column(name = "func_ativo")
 	private Boolean ativo = true;
+	
+	@Column(name = "func_senha")
+	@JsonIgnore
+	private String senha;
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
 	@Override
 	public Long getCodigo() {
